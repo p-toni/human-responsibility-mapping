@@ -1,0 +1,110 @@
+work_domain: enterprise_customer_support
+schema_version: "0.3"
+last_updated: null
+owner: "product-team"
+confidence: "medium"
+
+evidence_policy:
+  missing_evidence_label_means: "unvalidated"
+  ai_may_use_unvalidated_claims_as: "hypothesis_only"
+
+current_work_architecture:
+  sequence: "Ticket read, investigated, drafted, reviewed, sent."
+  queues: "Escalations wait for support lead or product engineer."
+  handoffs: "Support sends narrative to engineering."
+  reviews: "Agent manually reviews most responses."
+  approvals: "High-risk cases require lead approval."
+  artifacts: "Ticket thread, macros, internal notes."
+  feedback_loops: "Knowledge updates happen after the case."
+  control_surfaces: ["manual_review", "lead_escalation"]
+  metrics: ["resolution_time", "csat", "reopen_rate"]
+
+ai_native_work_architecture_hypothesis:
+  sequence: "Context prepared automatically before response work starts."
+  queues: "Low-risk cases resolved; uncertain cases routed with evidence."
+  handoffs: "AI prepares structured evidence packet for engineering."
+  reviews: "Humans review high-risk or low-confidence responses."
+  approvals: "Approval gates based on risk, policy, and confidence."
+  artifacts: "Living case object with evidence, decisions, status."
+  feedback_loops: "Lessons proposed during resolution."
+  control_surfaces: ["approval_gate", "confidence_threshold", "policy_block", "rollback"]
+  metrics: ["draft_acceptance_rate", "edit_distance", "source_inspection_rate", "reopen_rate"]
+
+responsibilities:
+  - name: "draft_response"
+    current_human_owner: "support_agent"
+    boundary:
+      current_state: "AI-assisted"
+      target_state: "AI-assisted"
+      ai_role: "draft policy-checked response"
+      movement_condition: ["response_correctness_eval_passes", "policy_compliance_eval_passes", "source_fidelity_visible"]
+      accountability_owner: "support_lead"
+      control_mode: "approve-before-action"
+    product_requirements: ["policy_checked_drafts", "source_citations", "approval_gate"]
+    eval_requirements: ["response_correctness_eval", "policy_compliance_eval", "source_fidelity_eval"]
+    telemetry: ["draft_acceptance_rate", "edit_distance", "reopen_rate", "escalation_rate"]
+    claims:
+      - claim: "Draft response can remain AI-assisted for low-risk cases."
+        evidence_label: "unvalidated"
+        confidence: "low"
+        allowed_agent_use: "hypothesis_only"
+        validation_needed: true
+
+contradictions:
+  - date: null
+    assumption_challenged: "Support agents will trust source-backed drafts."
+    signal: "High edit distance or low source inspection."
+    what_we_learned: null
+    map_update: null
+    product_eval_impact: "May require better source UI or lower target boundary."
+    status: "open"
+
+release_gate:
+  boundary_or_shift: "draft_response"
+  capability:
+    - "capability_demonstrated_in_realistic_scenarios"
+    - "known_limitations_documented"
+    - "failure_modes_understood"
+  trust_and_evidence:
+    - "evidence_inspectable"
+    - "calibration_or_uncertainty_visible"
+    - "human_control_appropriate"
+  accountability:
+    - "accountable_owner_explicit"
+    - "human_only_decisions_preserved"
+    - "escalation_path_exists"
+  evals:
+    - "required_evals_defined"
+    - "required_evals_pass"
+    - "regression_coverage_exists"
+  telemetry:
+    - "adoption_measurable"
+    - "overrides_measurable"
+    - "misuse_measurable"
+    - "rejection_or_abandonment_measurable"
+    - "drift_or_degradation_detectable"
+  decision: "do_not_move_until_pilot_complete"
+
+
+durable_ambiguity:
+  uncertainty_status: "active"
+  multiple_hypotheses:
+    - id: "H1"
+      hypothesis: "Low-risk support cases move to risk-based review."
+      what_changes: "Risk-scored cases bypass human review for low-risk responses; humans focus on high-risk and exceptions."
+      evidence_needed:
+        - "draft_acceptance_rate"
+        - "reopen_rate"
+        - "policy_violation_rate"
+      risk: "overtrust_in_ai_drafts"
+      option_preserving_next_step: "pilot_with_human_approval_required"
+  option_preserving_rules:
+    - "prefer_reversible_changes"
+    - "preserve_human_override"
+    - "stage_delegation"
+    - "define_contradiction_signals"
+  contradiction_signals:
+    - "high_override_rate"
+    - "high_reopen_rate"
+    - "low_source_inspection"
+    - "new_manual_workarounds"
