@@ -39,7 +39,7 @@ responsibilities:
       ai_role: "draft policy-checked response"
       movement_condition: ["response_correctness_eval_passes", "policy_compliance_eval_passes", "source_fidelity_visible"]
       accountability_owner: "support_lead"
-      control_mode: "approve-before-action"
+      control_mode: null
     product_requirements: ["policy_checked_drafts", "source_citations", "approval_gate"]
     eval_requirements: ["response_correctness_eval", "policy_compliance_eval", "source_fidelity_eval"]
     telemetry: ["draft_acceptance_rate", "edit_distance", "reopen_rate", "escalation_rate"]

@@ -1,6 +1,6 @@
 # Triggering evaluation
 
-This directory contains the trigger eval set and results used to verify the skill's `description` field. The eval was run with the `skill-creator` `run_eval.py` harness via `claude -p` against the v0.3.2 description.
+This directory contains the trigger eval set and results used to verify the skill's `description` field. The recorded eval was run with `scripts/run_eval.py` via `claude -p` against the v0.3.2 description.
 
 ## Files
 
@@ -19,12 +19,12 @@ This directory contains the trigger eval set and results used to verify the skil
 
 **Specificity is perfect.** The description never false-positives on adjacent topics: marketing personas, pure data segmentation, frontend perf debugging, plain RACI without AI context, no-AI journey maps, A/B testing setup. This matters more than recall — a false-positive trigger hijacks unrelated work.
 
-**Recall is structurally limited.** Two consecutive description rewrites stalled at the same haiku floor. The pattern matches the skill-creator documentation: Claude (especially smaller models) often handles "how should we think about X" advisory questions by reasoning directly rather than consulting a framework file. The skill triggers more reliably when the user wants a concrete deliverable (the strategy-memo query went 0/3 → 3/3 with the v0.3.2 description) than when they want thinking help.
+**Recall is structurally limited.** Two consecutive description rewrites stalled at the same haiku floor. The pattern matches common skill-loader behavior: smaller or more direct models often handle "how should we think about X" advisory questions by reasoning directly rather than consulting a framework file. The skill triggers more reliably when the user wants a concrete deliverable (the strategy-memo query went 0/3 -> 3/3 with the v0.3.2 description) than when they want thinking help.
 
 ## Reproducing
 
 ```bash
-python3 -m scripts.run_eval \
+python3 scripts/run_eval.py \
   --eval-set evals/trigger-eval.json \
   --skill-path . \
   --runs-per-query 3 \

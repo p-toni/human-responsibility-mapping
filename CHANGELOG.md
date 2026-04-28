@@ -1,15 +1,28 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- Made `SKILL.md` frontmatter valid YAML by converting the long description to a folded scalar.
+- Shortened the `SKILL.md` description to satisfy skill validator length limits.
+- Fixed `schemas/agent-context-pack.example.yaml` so `control_mode` is only populated for AI-executed boundaries.
+- Added a repo-local trigger eval runner and replaced the invalid eval reproduction command.
+
+### Changed
+
+- Clarified that the skill is portable across Claude Code, Codex, and other systems that can load `SKILL.md`-style skills.
+
 ## v0.3.3
 
 ### Added
 
-- `evals/` directory with the reproducible trigger evaluation: 12-query test set (6 should-trigger bullseye, 6 should-not-trigger near-miss) plus per-query results for Haiku 4.5 and Sonnet 4.6.
+- `evals/` directory with trigger evaluation artifacts: 12-query test set (6 should-trigger bullseye, 6 should-not-trigger near-miss) plus per-query results for Haiku 4.5 and Sonnet 4.6.
 - README "Triggering and explicit invocation" section documenting the eval result and the explicit-invocation pattern for advisory questions.
 
 ### Changed
 
-- Rewrote the SKILL.md `description` to be more imperative ("Use this skill whenever ...") with concrete trigger phrases, after the first eval pass showed the original was undertriggering. Specificity is perfect (no false positives on adjacent topics); recall on advisory questions is structurally limited regardless of phrasing — Claude often handles "how should we think about X" questions by reasoning rather than consulting a framework file.
+- Rewrote the SKILL.md `description` to be more imperative ("Use this skill whenever ...") with concrete trigger phrases, after the first eval pass showed the original was undertriggering. Specificity is perfect (no false positives on adjacent topics); recall on advisory questions is structurally limited regardless of phrasing — some agents handle "how should we think about X" questions by reasoning rather than consulting a framework file.
 
 ## v0.3.2
 
@@ -58,7 +71,7 @@
 
 ### Added
 
-- Claude Code Skill YAML frontmatter.
+- Portable Skill YAML frontmatter.
 - Runtime resource pointers in `SKILL.md`.
 - `references/` folder for progressive disclosure.
 - Prior-art positioning.

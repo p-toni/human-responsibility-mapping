@@ -6,9 +6,11 @@ Human Responsibility Mapping helps teams decide what AI should do, what humans s
 
 This is an **integration framework**, not a claim of new theory. It combines established ideas from automation levels, trust in automation, responsibility/accountability mapping, service blueprinting, technology probes, Lean UX, and product eval practice into one practical operating artifact for AI product teams.
 
+The skill is not Claude-only. `SKILL.md` is plain YAML frontmatter plus Markdown instructions, so Claude Code, Codex, and any other agent or runtime that can load `SKILL.md`-style skills should be able to use the same workflow. If a system does not auto-trigger the skill, invoke it explicitly by name.
+
 ## What changed in v0.3
 
-- Added Claude Code Skill YAML frontmatter and explicit resources so bundled files are not orphaned.
+- Added portable Skill YAML frontmatter and explicit resources so bundled files are not orphaned.
 - Rewrote `SKILL.md` as operational instructions.
 - Collapsed overlapping concepts (delegation, AI exposure, trust requirement, accountability) into one **Boundary** model with three facets.
 - Simplified delegation into three boundary states with four control modes for AI-executed work.
@@ -92,6 +94,12 @@ human-responsibility-mapping/
       icu-bedside-nursing.md
   schemas/
     agent-context-pack.example.yaml
+  scripts/
+    run_eval.py
+  evals/
+    trigger-eval.json
+    trigger-eval-results-haiku-4.5.json
+    trigger-eval-results-sonnet-4.6.json
 ```
 
 `SKILL.md` is the runtime skill. The `references/` files are loaded on demand.
@@ -117,7 +125,7 @@ Do not recommend higher automation unless the release rule is satisfied.
 
 ## Triggering and explicit invocation
 
-This skill auto-triggers reliably when you ask for a **deliverable** ("write a strategy memo about how AI changes our CSM org", "build me a release gate for our AI feature", "produce a Human Responsibility Snapshot for ..."). It triggers less reliably on pure advisory questions ("how should we think about what AI does vs humans?") because Claude often answers those by reasoning directly without consulting a framework file.
+This skill auto-triggers reliably when you ask for a **deliverable** ("write a strategy memo about how AI changes our CSM org", "build me a release gate for our AI feature", "produce a Human Responsibility Snapshot for ..."). It can trigger less reliably on pure advisory questions ("how should we think about what AI does vs humans?") because some agents answer those directly without consulting a framework file.
 
 If you want the skill's structured output on an advisory question, invoke it explicitly:
 
@@ -125,7 +133,7 @@ If you want the skill's structured output on an advisory question, invoke it exp
 Use the human-responsibility-mapping skill to think through [WORK DOMAIN].
 ```
 
-See `evals/` for the reproducible trigger evaluation across Haiku 4.5 and Sonnet 4.6, including the 12-query test set and the per-query trigger rates. Specificity is perfect (no false positives on adjacent topics like marketing personas, plain RACI, or no-AI journey maps); recall is partial and structural.
+See `evals/` for the trigger evaluation artifacts across Haiku 4.5 and Sonnet 4.6, including the 12-query test set and the per-query trigger rates. Specificity is perfect (no false positives on adjacent topics like marketing personas, plain RACI, or no-AI journey maps); recall is partial and structural.
 
 ## License
 
