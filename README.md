@@ -6,7 +6,7 @@ Human Responsibility Mapping helps teams decide what AI should do, what humans s
 
 This is an **integration framework**, not a claim of new theory. It combines established ideas from automation levels, trust in automation, responsibility/accountability mapping, service blueprinting, technology probes, Lean UX, and product eval practice into one practical operating artifact for AI product teams.
 
-The skill is not Claude-only. `SKILL.md` is plain YAML frontmatter plus Markdown instructions, so Claude Code, Codex, and any other agent or runtime that can load `SKILL.md`-style skills should be able to use the same workflow. If a system does not auto-trigger the skill, invoke it explicitly by name.
+The skill is portable in form: `SKILL.md` is plain YAML frontmatter plus Markdown instructions, the convention used by Claude Code and Anthropic's Skills system. Other agent runtimes that load the same convention (including Codex when configured to read `SKILL.md`) should apply the same workflow and guardrails. Triggering reliability varies across runtimes — see `evals/`. If a system does not auto-trigger the skill, invoke it explicitly by name.
 
 ## What changed in v0.3
 
@@ -95,7 +95,7 @@ human-responsibility-mapping/
   schemas/
     agent-context-pack.example.yaml
   scripts/
-    run_eval.py
+    description_self_report.py
   evals/
     trigger-eval.json
     trigger-eval-results-haiku-4.5.json
@@ -133,7 +133,7 @@ If you want the skill's structured output on an advisory question, invoke it exp
 Use the human-responsibility-mapping skill to think through [WORK DOMAIN].
 ```
 
-See `evals/` for the trigger evaluation artifacts across Haiku 4.5 and Sonnet 4.6, including the 12-query test set and the per-query trigger rates. Specificity is perfect (no false positives on adjacent topics like marketing personas, plain RACI, or no-AI journey maps); recall is partial and structural.
+See `evals/README.md` for the trigger evaluation artifacts across Haiku 4.5 and Sonnet 4.6 — the 12-query test set, per-query trigger rates from the canonical skill-creator harness, and a separate self-report sanity-check script in `scripts/`. Specificity is perfect (no false positives on adjacent topics like marketing personas, plain RACI, or no-AI journey maps); recall is partial and structural.
 
 ## License
 
