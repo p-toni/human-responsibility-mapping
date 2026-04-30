@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.6
+
+### Changed
+
+- Updated committed trigger-eval result files to **10 runs/query** (from 3) to reduce run-to-run variance. The numbers are slightly lower than the 3-run results because the original sample had favorable noise on one sonnet query — the 10-run result is more honest about the structural recall floor: ~7% trigger rate on sonnet across 60 should-trigger runs, 0% on haiku. Specificity unchanged at 6/6 on both models.
+- Updated `evals/README.md` and main `README.md` to reflect the 10-run methodology and updated numbers.
+
 ## v0.3.5
 
 ### Added
