@@ -77,6 +77,7 @@ The seven evidence labels (`observed`, `interview_derived`, `telemetry_derived`,
 
 - Guyatt, G., et al. (2008). GRADE: an emerging consensus on rating quality of evidence and strength of recommendations. *BMJ*, 336(7650), 924–926. Standard evidence-grading framework in medicine.
 - Miles, M. B., & Huberman, A. M. (1994). *Qualitative Data Analysis* (2nd ed.). Sage. Source typing in qualitative research.
+- Glaser, B. G., & Strauss, A. L. (1967). *The Discovery of Grounded Theory: Strategies for Qualitative Research.* Aldine. Origin of theoretical saturation: new interviews stop yielding new themes. Referenced by the Stakeholder Coverage template.
 
 What this framework borrows: the discipline of attaching provenance to every claim. What it adds, for AI-assisted research: the explicit `ai_generated_hypothesis` label, because synthetic outputs are easy to mistake for findings if not labeled. This label is the only genuinely additive item in the evidence taxonomy.
 

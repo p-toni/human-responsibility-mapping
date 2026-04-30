@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.3.5
+
+### Added
+
+- `Stakeholder coverage` template in `references/templates.md` to track sampled roles with `unsampled` / `initial` / `theme-stable` / `n/a` status.
+- `Stakeholder coverage` heading in the SKILL.md Minimum Snapshot template.
+- Multi-domain guidance in `references/application-modes.md` that keeps one map per domain, avoids adding a new Program Mode, and calls out vocabulary consistency plus coverage rollup as the framework-shaped cross-domain concerns.
+- Glaser & Strauss 1967 citation in `references/prior-art.md` for the saturation framing used by the coverage template.
+
+### Changed
+
+- SKILL.md evidence guidance now asks agents to link claims to source artifacts where possible so evidence labels remain auditable.
+
 ## v0.3.4
 
 ### Fixed

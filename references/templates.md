@@ -28,6 +28,31 @@
 |---|---|---|---:|---|---|
 ```
 
+## Stakeholder coverage
+
+Track which roles have been sampled and whether the sample is stable enough to support downstream claims. A claim labeled `interview_derived` from one conversation is not the same kind of evidence as one from repeated conversations across role types.
+
+```markdown
+| Role | Sampled count | Saturation status | Evidence types collected | Gaps |
+|---|---:|---|---|---|
+| Operator |  |  |  |  |
+| Reviewer |  |  |  |  |
+| Decision owner |  |  |  |  |
+| Accountable owner |  |  |  |  |
+| Beneficiary |  |  |  |  |
+| Governance owner |  |  |  |  |
+| Exception handler |  |  |  |  |
+```
+
+Saturation status values:
+
+- `unsampled` — no contact made with this role.
+- `initial` — fewer than 3 conversations; do not generalize.
+- `theme-stable` — 3+ conversations and new sessions stop yielding new themes (Glaser & Strauss 1967).
+- `n/a` — role is not relevant to this domain.
+
+If any load-bearing role is `unsampled` or `initial`, label downstream claims about that role `inferred` or `unvalidated` and treat them as hypotheses pending research.
+
 ## Trust profile
 
 ```markdown

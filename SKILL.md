@@ -35,7 +35,7 @@ When a user asks how AI changes a workflow, role, journey, operating model, or s
 4. Identify the human/AI boundary for each responsibility.
 5. State the evidence, control, and accountability conditions required to move that boundary.
 6. Translate the map into product requirements, evals, telemetry, and release gates.
-7. Label evidence. Do not invent evidence.
+7. Label evidence. Link sources where possible. Do not invent evidence.
 
 ## Core model
 
@@ -141,6 +141,8 @@ Attach an evidence label to every important claim.
 
 If evidence is missing, label the claim `unvalidated`. Never upgrade confidence without evidence.
 
+Where possible, link each claim to its source artifact: interview note URL, ticket ID, telemetry query, document anchor, trace, or decision record. A label without a source is a self-asserted provenance claim, not an auditable one.
+
 This taxonomy is standard research provenance (cf. GRADE in medicine, Guyatt et al. 2008; qualitative source typing, Miles & Huberman 1994) plus the explicit `ai_generated_hypothesis` label, which is the only genuinely additive item — useful when AI is part of the research pipeline because synthetic outputs are easy to mistake for findings.
 
 ## Minimum snapshot
@@ -162,6 +164,7 @@ This taxonomy is standard research provenance (cf. GRADE in medicine, Guyatt et 
 ## Eval implications
 ## Telemetry signals
 ## Open assumptions and contradictions
+## Stakeholder coverage
 ```
 
 ## Special work shapes
