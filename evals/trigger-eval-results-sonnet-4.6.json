@@ -1,45 +1,45 @@
 {
   "skill_name": "human-responsibility-mapping",
-  "description": "Use this skill whenever a user asks how AI changes a workflow, role, journey, RACI, service blueprint, operating model, or strategy \u2014 including any version of \"what should AI do vs humans?\", \"what should we automate?\", \"who's accountable when the AI is wrong?\", or \"what evals/telemetry/release gates do we need before launch?\". Trigger on prompts about: redesigning incident response, customer support, legal review, security/SOC triage, sales, or operations workflows for AI; designing AI-assisted/agentic features and the human oversight around them; writing strategy memos or operating-model proposals about AI changing a team's work; building RACI-like ownership matrices, service blueprints, or journey maps that involve AI somewhere in the flow; defining AI-era personas (role-responsibility views, not marketing personas); translating trust requirements into evals, telemetry, and release gates. Use it even when the user does not say \"human responsibility mapping\" \u2014 they almost never will. The cue is any question about the boundary between human and AI responsibility, accountability, or work redesign.",
+  "description": "Use this skill whenever a user asks how AI changes a workflow, role, RACI, service blueprint, journey, operating model, or strategy \u2014 including versions of \"what should AI do vs humans?\", \"what should we automate?\", \"who's accountable when the AI is wrong?\", or \"what evals, telemetry, or release gates do we need before launch?\". Trigger on prompts about redesigning incident response, customer support, legal review, security/SOC triage, sales, or operations workflows for AI; designing AI-assisted or agentic features and the human oversight around them; writing strategy memos or operating-model proposals about AI changing a team's work; building RACI-like ownership maps, service blueprints, or journey maps that involve AI; defining AI-era personas (role-responsibility views, not marketing personas); translating trust requirements into evals, telemetry, and release gates. The cue is any question about the boundary between human and AI responsibility, accountability, or work redesign.",
   "results": [
-    {
-      "query": "I'm doing roadmap planning for Q3 and need to write a strategy memo about how AI changes our customer-success org. Specifically: which CSM activities get automated, which stay human, and what the new operating model looks like. about 2 pages.",
-      "should_trigger": true,
-      "trigger_rate": 1.0,
-      "triggers": 3,
-      "runs": 3,
-      "pass": true
-    },
     {
       "query": "ok we're rolling out an AI summarizer for our incident response slack channel. PagerDuty fires, we want claude to summarize the thread, suggest next steps, eventually maybe draft the postmortem. how should we think about what stays human vs what AI does",
       "should_trigger": true,
-      "trigger_rate": 0.0,
-      "triggers": 0,
-      "runs": 3,
+      "trigger_rate": 0.3,
+      "triggers": 3,
+      "runs": 10,
+      "pass": false
+    },
+    {
+      "query": "I'm doing roadmap planning for Q3 and need to write a strategy memo about how AI changes our customer-success org. Specifically: which CSM activities get automated, which stay human, and what the new operating model looks like. about 2 pages.",
+      "should_trigger": true,
+      "trigger_rate": 0.1,
+      "triggers": 1,
+      "runs": 10,
       "pass": false
     },
     {
       "query": "we're a legal team adding an AI contract reviewer (Harvey-like). Need to figure out RACI for the new workflow. Right now it's: associate reviews \u2192 senior reviews \u2192 partner approves. With the AI in the loop, who's accountable when it misses a clause?",
       "should_trigger": true,
-      "trigger_rate": 0.3333333333333333,
-      "triggers": 1,
-      "runs": 3,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 10,
       "pass": false
     },
     {
       "query": "Our radiologists are piloting an AI triage tool for chest x-rays. PM here. I need to figure out what the AI can do safely vs what stays with the radiologist, and what evals/telemetry we need before broader rollout. Regulated, FDA cleared device.",
       "should_trigger": true,
-      "trigger_rate": 0.3333333333333333,
-      "triggers": 1,
-      "runs": 3,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 10,
       "pass": false
     },
     {
       "query": "I'm building a service blueprint for our new agent-assisted onboarding flow. Need to figure out what changes vs the current human-only flow \u2014 handoffs, reviews, when humans step in. Help me think through it.",
       "should_trigger": true,
-      "trigger_rate": 0.3333333333333333,
-      "triggers": 1,
-      "runs": 3,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 10,
       "pass": false
     },
     {
@@ -47,7 +47,7 @@
       "should_trigger": true,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": false
     },
     {
@@ -55,7 +55,7 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     },
     {
@@ -63,7 +63,7 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     },
     {
@@ -71,7 +71,7 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     },
     {
@@ -79,7 +79,7 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     },
     {
@@ -87,7 +87,7 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     },
     {
@@ -95,13 +95,13 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     }
   ],
   "summary": {
     "total": 12,
-    "passed": 7,
-    "failed": 5
+    "passed": 6,
+    "failed": 6
   }
 }

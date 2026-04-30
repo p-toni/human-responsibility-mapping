@@ -1,21 +1,21 @@
 {
   "skill_name": "human-responsibility-mapping",
-  "description": "Use this skill whenever a user asks how AI changes a workflow, role, journey, RACI, service blueprint, operating model, or strategy \u2014 including any version of \"what should AI do vs humans?\", \"what should we automate?\", \"who's accountable when the AI is wrong?\", or \"what evals/telemetry/release gates do we need before launch?\". Trigger on prompts about: redesigning incident response, customer support, legal review, security/SOC triage, sales, or operations workflows for AI; designing AI-assisted/agentic features and the human oversight around them; writing strategy memos or operating-model proposals about AI changing a team's work; building RACI-like ownership matrices, service blueprints, or journey maps that involve AI somewhere in the flow; defining AI-era personas (role-responsibility views, not marketing personas); translating trust requirements into evals, telemetry, and release gates. Use it even when the user does not say \"human responsibility mapping\" \u2014 they almost never will. The cue is any question about the boundary between human and AI responsibility, accountability, or work redesign.",
+  "description": "Use this skill whenever a user asks how AI changes a workflow, role, RACI, service blueprint, journey, operating model, or strategy \u2014 including versions of \"what should AI do vs humans?\", \"what should we automate?\", \"who's accountable when the AI is wrong?\", or \"what evals, telemetry, or release gates do we need before launch?\". Trigger on prompts about redesigning incident response, customer support, legal review, security/SOC triage, sales, or operations workflows for AI; designing AI-assisted or agentic features and the human oversight around them; writing strategy memos or operating-model proposals about AI changing a team's work; building RACI-like ownership maps, service blueprints, or journey maps that involve AI; defining AI-era personas (role-responsibility views, not marketing personas); translating trust requirements into evals, telemetry, and release gates. The cue is any question about the boundary between human and AI responsibility, accountability, or work redesign.",
   "results": [
-    {
-      "query": "I'm doing roadmap planning for Q3 and need to write a strategy memo about how AI changes our customer-success org. Specifically: which CSM activities get automated, which stay human, and what the new operating model looks like. about 2 pages.",
-      "should_trigger": true,
-      "trigger_rate": 0.3333333333333333,
-      "triggers": 1,
-      "runs": 3,
-      "pass": false
-    },
     {
       "query": "ok we're rolling out an AI summarizer for our incident response slack channel. PagerDuty fires, we want claude to summarize the thread, suggest next steps, eventually maybe draft the postmortem. how should we think about what stays human vs what AI does",
       "should_trigger": true,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
+      "pass": false
+    },
+    {
+      "query": "I'm doing roadmap planning for Q3 and need to write a strategy memo about how AI changes our customer-success org. Specifically: which CSM activities get automated, which stay human, and what the new operating model looks like. about 2 pages.",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 10,
       "pass": false
     },
     {
@@ -23,7 +23,7 @@
       "should_trigger": true,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": false
     },
     {
@@ -31,7 +31,7 @@
       "should_trigger": true,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": false
     },
     {
@@ -39,7 +39,7 @@
       "should_trigger": true,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": false
     },
     {
@@ -47,23 +47,23 @@
       "should_trigger": true,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": false
-    },
-    {
-      "query": "I have a CSV with 50k customer records and I want to segment them into clusters for an email campaign. Can you do k-means in pandas and give me the segment profiles?",
-      "should_trigger": false,
-      "trigger_rate": 0.0,
-      "triggers": 0,
-      "runs": 3,
-      "pass": true
     },
     {
       "query": "write me a marketing persona for our new dev-tools SaaS product. Target is mid-market backend engineers, pain points around CI/CD, JTBD around faster deploys.",
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
+      "pass": true
+    },
+    {
+      "query": "I have a CSV with 50k customer records and I want to segment them into clusters for an email campaign. Can you do k-means in pandas and give me the segment profiles?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 10,
       "pass": true
     },
     {
@@ -71,7 +71,7 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     },
     {
@@ -79,7 +79,7 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     },
     {
@@ -87,7 +87,7 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     },
     {
@@ -95,7 +95,7 @@
       "should_trigger": false,
       "trigger_rate": 0.0,
       "triggers": 0,
-      "runs": 3,
+      "runs": 10,
       "pass": true
     }
   ],

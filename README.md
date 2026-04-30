@@ -133,7 +133,7 @@ If you want the skill's structured output on an advisory question, invoke it exp
 Use the human-responsibility-mapping skill to think through [WORK DOMAIN].
 ```
 
-See `evals/README.md` for the trigger evaluation artifacts across Haiku 4.5 and Sonnet 4.6 — the 12-query test set, per-query trigger rates from the canonical skill-creator harness, and a separate self-report sanity-check script in `scripts/`. Specificity is perfect (no false positives on adjacent topics like marketing personas, plain RACI, or no-AI journey maps); recall is partial and structural.
+See `evals/README.md` for the trigger evaluation artifacts across Haiku 4.5 and Sonnet 4.6 — the 12-query test set, per-query trigger rates from the canonical skill-creator harness (10 runs/query), and a separate self-report sanity-check script in `scripts/`. Specificity is perfect (no false positives on adjacent topics like marketing personas, plain RACI, or no-AI journey maps); recall is structurally limited — across 60 should-trigger runs on sonnet the skill auto-triggered ~7% of the time, on haiku 0%. Multiple description rewrites don't move the floor; smaller or more direct models reason through advisory questions rather than consult a framework file. Invoke explicitly for advice; auto-trigger is more reliable when you ask for a concrete deliverable.
 
 ## License
 

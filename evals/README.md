@@ -7,21 +7,23 @@ There is also a **self-report sanity-check script** in this repo at `scripts/des
 ## Files
 
 - `trigger-eval.json` — 12 realistic queries (6 should-trigger bullseye, 6 should-not-trigger near-misses).
-- `trigger-eval-results-haiku-4.5.json` — skill-creator harness, `claude-haiku-4-5-20251001`, 3 runs/query.
-- `trigger-eval-results-sonnet-4.6.json` — skill-creator harness, `claude-sonnet-4-6`, 3 runs/query.
+- `trigger-eval-results-haiku-4.5.json` — skill-creator harness, `claude-haiku-4-5-20251001`, **10 runs/query** against the v0.3.5 description.
+- `trigger-eval-results-sonnet-4.6.json` — skill-creator harness, `claude-sonnet-4-6`, **10 runs/query** against the v0.3.5 description.
 
 ## Result
 
-| Model | Pass | Should-trigger recall | Specificity (no-false-positive) |
+| Model | Pass (strict) | Should-trigger trigger rate | Specificity (no-false-positive) |
 |---|---|---|---|
-| Haiku 4.5 | 6/12 | 0/6 reliable | 6/6 |
-| Sonnet 4.6 | 7/12 | 1/6 reliable (3/3 on the strategy memo) | 6/6 |
+| Haiku 4.5 | 6/12 | 0% across all 6 bullseye queries | 6/6 perfect |
+| Sonnet 4.6 | 6/12 | 7% mean (one query at 30%, one at 10%, four at 0%) | 6/6 perfect |
+
+The summary `pass` column uses a strict criterion: a should-trigger query "passes" only if it triggers on *all* runs; a should-not-trigger query passes only if it triggers on *zero* runs. So `6/12` here means all 6 should-not-trigger queries pass (perfect specificity) and 0 of the 6 should-trigger queries hit 100% recall. Per-query trigger rates are in the JSON files.
 
 ## Interpretation
 
 **Specificity is perfect.** The description never false-positives on adjacent topics: marketing personas, pure data segmentation, frontend perf debugging, plain RACI without AI context, no-AI journey maps, A/B testing setup. This matters more than recall — a false-positive trigger hijacks unrelated work.
 
-**Recall is structurally limited.** Two consecutive description rewrites stalled at the same haiku floor. The pattern matches common skill-loader behavior: smaller or more direct models often handle "how should we think about X" advisory questions by reasoning directly rather than consulting a framework file. The skill triggers more reliably when the user wants a concrete deliverable (the strategy-memo query went 0/3 -> 3/3 with the v0.3.2 description) than when they want thinking help.
+**Recall is structurally limited.** Across 60 should-trigger runs on sonnet, the skill triggered 4 times (~7%). On haiku, 0 times. Multiple description rewrites (v0.3.0 → v0.3.5) and the move from 3 to 10 runs/query don't change the floor — this is a property of how skill loaders weigh advisory questions ("how should we think about X?"). Smaller or more direct models reason through them rather than consult a framework file. The skill triggers more reliably when the user asks for a concrete deliverable (release gate, snapshot table, eval plan) than when they ask for thinking help. For advisory questions, invoke the skill explicitly — see the README's "Triggering and explicit invocation" section.
 
 ## Reproducing
 
@@ -33,13 +35,13 @@ This is what produced the committed result files. Requires Anthropic's `skill-cr
 python3 -m scripts.run_eval \
   --eval-set evals/trigger-eval.json \
   --skill-path . \
-  --runs-per-query 3 \
+  --runs-per-query 10 \
   --num-workers 6 \
   --model claude-sonnet-4-6 \
   --verbose
 ```
 
-(Run from the `skill-creator` skill directory, with `--skill-path` pointing at this repo.)
+(Run from the `skill-creator` skill directory, with `--skill-path` pointing at this repo. The committed result files use 10 runs/query to reduce variance; 3 runs is enough for fast iteration but the trigger rate has high run-to-run noise at that sample size.)
 
 ### Self-report sanity check (local, no extra deps)
 
