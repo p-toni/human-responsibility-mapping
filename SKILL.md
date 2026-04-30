@@ -1,20 +1,27 @@
 ---
 name: human-responsibility-mapping
 description: >-
-  Use this skill when a user asks how AI changes a workflow, role, RACI,
-  service blueprint, journey, operating model, or strategy. Trigger for
-  questions like what AI should do versus humans, what to automate, who is
-  accountable when AI is wrong, or what evals, telemetry, and release gates are
-  needed before launch. Use for AI-assisted or agentic incident response,
-  support, legal review, security/SOC triage, sales, operations, RACI-like
-  ownership maps, AI-era persona views, and trust/accountability decisions.
+  Use this skill whenever a user asks how AI changes a workflow, role, RACI,
+  service blueprint, journey, operating model, or strategy — including
+  versions of "what should AI do vs humans?", "what should we automate?",
+  "who's accountable when the AI is wrong?", or "what evals, telemetry, or
+  release gates do we need before launch?". Trigger on prompts about
+  redesigning incident response, customer support, legal review, security/SOC
+  triage, sales, or operations workflows for AI; designing AI-assisted or
+  agentic features and the human oversight around them; writing strategy
+  memos or operating-model proposals about AI changing a team's work;
+  building RACI-like ownership maps, service blueprints, or journey maps that
+  involve AI; defining AI-era personas (role-responsibility views, not
+  marketing personas); translating trust requirements into evals, telemetry,
+  and release gates. The cue is any question about the boundary between human
+  and AI responsibility, accountability, or work redesign.
 ---
 
 # Human Responsibility Mapping
 
 Use this skill to map how AI changes work, human responsibility, trust, and accountability.
 
-This skill is agent-compatible. Claude Code, Codex, and any other system that can load a `SKILL.md` file should apply the same workflow and guardrails.
+This skill targets the Markdown + YAML-frontmatter convention used by Claude Code and Anthropic's Skills system. Other agent runtimes that load the same convention (e.g. Codex when configured to read `SKILL.md`) should apply the same workflow and guardrails. Triggering reliability varies across runtimes — see `evals/README.md`.
 
 This is not a synthetic-persona generator. It is an integration framework for AI product teams. It produces AI-era persona views as one output, but the source artifact is a **Human Responsibility Map**.
 

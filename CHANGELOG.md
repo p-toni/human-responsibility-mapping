@@ -1,17 +1,16 @@
 # Changelog
 
-## Unreleased
+## v0.3.4
 
 ### Fixed
 
-- Made `SKILL.md` frontmatter valid YAML by converting the long description to a folded scalar.
-- Shortened the `SKILL.md` description to satisfy skill validator length limits.
-- Fixed `schemas/agent-context-pack.example.yaml` so `control_mode` is only populated for AI-executed boundaries.
-- Added a repo-local trigger eval runner and replaced the invalid eval reproduction command.
+- Kept the `SKILL.md` description as a YAML folded scalar (`>-`) for valid frontmatter, but restored the concrete trigger phrases ("what should AI do vs humans?", "what should we automate?", "who's accountable when the AI is wrong?", "what evals/telemetry/release gates do we need before launch?") that the v0.3.3 trigger eval showed were load-bearing for recall. v0.3.4 description is ~960 chars — within typical loader limits, with the recall signal intact.
+- `schemas/agent-context-pack.example.yaml` — kept the `control_mode: null` correction for the AI-assisted boundary (control modes are only meaningful for AI-executed work, per SKILL.md).
+- Renamed `scripts/run_eval.py` → `scripts/description_self_report.py` and clarified in its docstring + `evals/README.md` that it measures self-report (Claude-judges-its-own-description), which is a different methodology from the skill-creator harness that produced the committed result files. Both reproduction commands are now documented separately.
 
 ### Changed
 
-- Clarified that the skill is portable across Claude Code, Codex, and other systems that can load `SKILL.md`-style skills.
+- Hedged the portability framing in `README.md` and `SKILL.md`: the `SKILL.md` Markdown + YAML-frontmatter convention is from Claude Code / Anthropic Skills; other runtimes (e.g. Codex) can use it when configured to load that convention, but triggering reliability varies. Pointer to `evals/` added.
 
 ## v0.3.3
 

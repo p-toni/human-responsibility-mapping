@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
-"""Run the trigger eval set against the skill description with Claude CLI."""
+"""Self-report description check: ask Claude in plain text whether each query should
+trigger this skill, given only the description. Returns TRIGGER / NO_TRIGGER per query.
+
+This is NOT the same methodology as the skill-creator's run_eval.py harness, which
+registers the skill with `claude -p` and observes whether Claude actually invokes or
+reads it for a real user query. Self-report typically over-reports because direct
+asking primes the model. Use this script for quick iteration on description wording;
+use the skill-creator harness for canonical trigger evaluation. The committed result
+files in evals/ were produced by the skill-creator harness, not by this script."""
 
 from __future__ import annotations
 
