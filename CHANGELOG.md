@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.8
+
+### Added
+
+- `examples/illustrative/customer-support-boundary-map.svg`, a deterministic visual summary of the full customer-support map.
+- Embedded the visual map from `examples/illustrative/customer-support-full-map.md` and linked it from README / examples index.
+
 ## v0.3.7
 
 ### Added

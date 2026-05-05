@@ -24,6 +24,10 @@ If you only have two minutes, read:
 
 The remaining sections show the supporting evidence, stakeholder coverage, eval, and telemetry detail a real team would need before moving boundaries.
 
+## Visual Map
+
+![Customer support boundary map](customer-support-boundary-map.svg)
+
 ## Work Domain
 
 Customer support ticket handling for a B2B SaaS product with email, chat, and in-product support requests.

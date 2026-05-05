@@ -21,7 +21,7 @@ A Human Responsibility Map usually includes:
 - Telemetry plan
 - Release gate
 
-For a complete synthetic example, see [`examples/illustrative/customer-support-full-map.md`](examples/illustrative/customer-support-full-map.md).
+For a complete synthetic example, see [`examples/illustrative/customer-support-full-map.md`](examples/illustrative/customer-support-full-map.md), including its deterministic visual summary [`customer-support-boundary-map.svg`](examples/illustrative/customer-support-boundary-map.svg).
 
 ## What changed in v0.3
 
@@ -106,6 +106,7 @@ human-responsibility-mapping/
       README.md
       customer-support.md
       customer-support-full-map.md
+      customer-support-boundary-map.svg
       security.md
       icu-bedside-nursing.md
   schemas/

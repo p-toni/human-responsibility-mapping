@@ -213,6 +213,7 @@ Load supporting files only when needed:
 - `examples/illustrative/README.md` — what these examples are and aren't.
 - `examples/illustrative/customer-support.md` — knowledge-work IC, linear pipeline.
 - `examples/illustrative/customer-support-full-map.md` — complete synthetic map with boundaries, evidence, evals, telemetry, release gate.
+- `examples/illustrative/customer-support-boundary-map.svg` — deterministic visual summary of the customer-support full map.
 - `examples/illustrative/security.md` — knowledge-work IC, exploratory + agentic.
 - `examples/illustrative/icu-bedside-nursing.md` — embodied, multi-patient, safety-critical (stress-tests the framework where its defaults break).
 - `schemas/agent-context-pack.example.yaml` — machine-readable example.
