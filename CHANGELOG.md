@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.3.7
+
+### Added
+
+- `examples/illustrative/customer-support-full-map.md`, a complete synthetic deliverable showing the finished artifact shape across work architecture, responsibility boundaries, stakeholder coverage, evidence, trust/accountability, evals, telemetry, release gate, and contradiction signals.
+- README "What you produce" section linking the framework to the concrete deliverables a team should expect.
+
+### Changed
+
+- Reframed `SKILL.md` and the description as **deliverable-first**. Description opens with "Produces a **Human Responsibility Snapshot** — a structured Markdown artifact..." rather than "Use this skill whenever a user asks…". The hypothesis: skill loaders weight artifact-producing skills higher for triggering than advisory skills, because Claude can answer advisory questions by reasoning but can't fabricate a structured template. Concrete trigger phrases preserved in the description (folded scalar, under 1024 chars).
+- SKILL.md opening line now leads with "**produce a Human Responsibility Snapshot or Map**" rather than "map how AI changes work".
+- Added explicit "Default output: a filled Snapshot using the Minimum snapshot template" instruction at the end of Core instruction.
+- Expanded `references/workshop.md` into a 60-minute, deliverable-first workshop with inputs, first three deliverables, and a "done means" checklist.
+- All conceptual content (Boundary model, control modes, evidence labels, release rule, references, templates) unchanged. The framework's substance is the same; only the default mode of output shifted from "discuss" to "produce".
+
+### Validation
+
+- `SKILL.md` frontmatter remains valid YAML and the description remains under the 1024-character loader limit after the deliverable-first rewrite.
+- Canonical trigger evals should be rerun before publishing a release that changes the description. The committed `evals/trigger-eval-results-*.json` files remain the existing baseline unless updated in the same release.
+
 ## v0.3.5
 
 ### Added

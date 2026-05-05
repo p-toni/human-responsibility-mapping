@@ -8,6 +8,21 @@ This is an **integration framework**, not a claim of new theory. It combines est
 
 The skill is portable in form: `SKILL.md` is plain YAML frontmatter plus Markdown instructions, the convention used by Claude Code and Anthropic's Skills system. Other agent runtimes that load the same convention (including Codex when configured to read `SKILL.md`) should apply the same workflow and guardrails. Triggering reliability varies across runtimes — see `evals/`. If a system does not auto-trigger the skill, invoke it explicitly by name.
 
+## What you produce
+
+A Human Responsibility Map usually includes:
+
+- Current work architecture
+- Responsibility boundaries
+- Evidence ledger
+- Stakeholder coverage
+- Trust / accountability requirements
+- Eval plan
+- Telemetry plan
+- Release gate
+
+For a complete synthetic example, see [`examples/illustrative/customer-support-full-map.md`](examples/illustrative/customer-support-full-map.md).
+
 ## What changed in v0.3
 
 - Added portable Skill YAML frontmatter and explicit resources so bundled files are not orphaned.
@@ -90,6 +105,7 @@ human-responsibility-mapping/
     illustrative/
       README.md
       customer-support.md
+      customer-support-full-map.md
       security.md
       icu-bedside-nursing.md
   schemas/
