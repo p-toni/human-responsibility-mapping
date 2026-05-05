@@ -1,25 +1,24 @@
 ---
 name: human-responsibility-mapping
 description: >-
-  Use this skill whenever a user asks how AI changes a workflow, role, RACI,
-  service blueprint, journey, operating model, or strategy — including
-  versions of "what should AI do vs humans?", "what should we automate?",
-  "who's accountable when the AI is wrong?", or "what evals, telemetry, or
-  release gates do we need before launch?". Trigger on prompts about
-  redesigning incident response, customer support, legal review, security/SOC
-  triage, sales, or operations workflows for AI; designing AI-assisted or
-  agentic features and the human oversight around them; writing strategy
-  memos or operating-model proposals about AI changing a team's work;
-  building RACI-like ownership maps, service blueprints, or journey maps that
-  involve AI; defining AI-era personas (role-responsibility views, not
-  marketing personas); translating trust requirements into evals, telemetry,
-  and release gates. The cue is any question about the boundary between human
-  and AI responsibility, accountability, or work redesign.
+  Produces a **Human Responsibility Snapshot** — a structured Markdown
+  artifact mapping each responsibility in a workflow, who owns it today, what
+  AI takes on next, the boundary state (human-owned / AI-assisted /
+  AI-executed), the movement condition (evidence, eval, telemetry, or control
+  needed to move it), and what stays human-owned. Use whenever a user asks
+  how AI changes a workflow, role, RACI, service blueprint, journey,
+  operating model, or strategy — including "what should AI do vs humans?",
+  "what should we automate?", "who's accountable when the AI is wrong?", or
+  "what evals, telemetry, or release gates do we need before launch?".
+  Triggers on AI-assisted or agentic incident response, customer support,
+  legal review, security/SOC triage, sales, ops, AI-era persona views, and
+  operating-model memos about AI changing a team's work. Default output is
+  the filled Snapshot table — not prose advice.
 ---
 
 # Human Responsibility Mapping
 
-Use this skill to map how AI changes work, human responsibility, trust, and accountability.
+Use this skill to **produce a Human Responsibility Snapshot or Map** — structured Markdown artifacts that show which responsibilities AI takes on, what humans retain, the evidence/control/accountability conditions required to move each boundary, and the product/eval/telemetry implications. The Snapshot (lightweight) is the default deliverable; the Map (Standard/Full mode) is the longer version.
 
 This skill targets the Markdown + YAML-frontmatter convention used by Claude Code and Anthropic's Skills system. Other agent runtimes that load the same convention (e.g. Codex when configured to read `SKILL.md`) should apply the same workflow and guardrails. Triggering reliability varies across runtimes — see `evals/README.md`.
 
@@ -36,6 +35,8 @@ When a user asks how AI changes a workflow, role, journey, operating model, or s
 5. State the evidence, control, and accountability conditions required to move that boundary.
 6. Translate the map into product requirements, evals, telemetry, and release gates.
 7. Label evidence. Link sources where possible. Do not invent evidence.
+
+**Default output: a filled Snapshot using the Minimum snapshot template below, populated from your responses to steps 1–7. Switch to prose discussion only if the user explicitly asks to discuss tradeoffs instead of producing the artifact.**
 
 ## Core model
 
@@ -211,6 +212,7 @@ Load supporting files only when needed:
 - `references/workshop.md` — workshop flow.
 - `examples/illustrative/README.md` — what these examples are and aren't.
 - `examples/illustrative/customer-support.md` — knowledge-work IC, linear pipeline.
+- `examples/illustrative/customer-support-full-map.md` — complete synthetic map with boundaries, evidence, evals, telemetry, release gate.
 - `examples/illustrative/security.md` — knowledge-work IC, exploratory + agentic.
 - `examples/illustrative/icu-bedside-nursing.md` — embodied, multi-patient, safety-critical (stress-tests the framework where its defaults break).
 - `schemas/agent-context-pack.example.yaml` — machine-readable example.
