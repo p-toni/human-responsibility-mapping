@@ -97,6 +97,13 @@ Boundary or work-architecture shift:
 [ ] Human-only decisions are preserved.
 [ ] Escalation path exists.
 
+## Oversight viability
+[ ] Review capacity is budgeted at peak load, with sample sizes derived from a stated detection target.
+[ ] Accountable owner passes the authority / information / time / skill test.
+[ ] Independent challenge and affected-party recourse exist for high-impact moves.
+[ ] Skill-retention plan exists where the move erodes practice.
+[ ] AI-only paths are enumerated with controls commensurate with their worst outcome.
+
 ## Evals
 [ ] Required evals are defined.
 [ ] Required evals pass.
@@ -109,7 +116,11 @@ Boundary or work-architecture shift:
 [ ] Rejection or abandonment is measurable.
 [ ] Drift or degradation can be detected.
 
-Decision: Move / do not move / validate further
+## Durable ambiguity
+
+Append the Ambiguity-aware release checks (below) — the gate is incomplete without them.
+
+Decision: Move / do not move / validate further — record it as a Boundary decision record (below).
 ```
 
 ## Boundary decision record
@@ -133,23 +144,32 @@ One per move / do-not-move decision. This is the audit trail the accountability 
 
 ## Oversight capacity check
 
-Run before any move that adds `approve-before-action` or `sampling-review` load. If needed exceeds available, the control will silently degrade into rubber-stamping — change scope, control mode, or staffing instead.
+Run before any move that adds `approve-before-action` or `sampling-review` load. If needed exceeds available, the control will silently degrade into rubber-stamping — change scope, controls, or staffing instead.
+
+Size the sample from a detection target, not from feel: to bound an undetected failure rate at θ with ~95% confidence you need about `3 / θ` clean reviews in that stratum (rule of three). Budget at peak, not mean — volume spikes, incidents, and staffing gaps arrive together (see `references/oversight-viability.md`).
 
 ```markdown
-| AI-executed responsibility | Control mode | Expected items/week | Minutes per adequate review | Review hours needed | Review hours available | Fits? |
-|---|---|---:|---:|---:|---:|---|
+| AI-executed responsibility | Risk stratum | Volume/week (mean / peak) | Detection target (max undetected failure rate) | Reviews/week needed (≈ 3 / target) | Minutes per adequate review | Review hours needed at peak | Review hours available (worst shift) | Headroom ≥ 20%? |
+|---|---|---|---|---:|---:|---:|---:|---|
 ```
 
-Count AI-initiated interrupts (alerts, suggestions, pings) in the same budget: attention spent absorbing them is attention unavailable for review.
+Rules that keep the numbers honest:
+
+- Stratify by risk: a uniform sample mostly re-measures the easy majority; rare high-harm strata need their own sample and target.
+- Count AI-initiated interrupts (alerts, suggestions, pings) in the same budget: attention spent absorbing them is attention unavailable for review.
+- Detection without intervention time is not oversight: check that the review cadence beats the harm's timeline (intervention SLA), not just its rate.
+- Keep planned reviewer utilization under ~80%: vigilance degrades with fatigue, and zero headroom means the first incident consumes the sampling budget.
 
 ## AI-only path table
 
-After any boundary move, trace the work architecture for sequences of AI-executed steps a work item can traverse with no human contact. Row-level controls do not cover chains; each path needs a path-level control (end-to-end sampling of completed cases, or periodic whole-case audit).
+After any boundary move, trace the work architecture for sequences of AI-executed steps a work item can traverse with no human contact. Row-level controls do not cover chains; each path needs path-level controls **commensurate with its worst outcome** (see `references/agentic-work.md` for control types).
 
 ```markdown
-| Path (AI-executed steps in sequence) | Entry condition | Expected volume | Worst plausible outcome | Path-level control | Owner |
-|---|---|---:|---|---|---|
+| Path (AI-executed steps in sequence) | Entry condition | Volume (mean / peak) | Worst plausible outcome | Hazard class (reversible / irreversible; detection latency) | Controls (type: control) | Owner |
+|---|---|---|---|---|---|---|
 ```
+
+Hazard rule: if the worst outcome is irreversible, or detection latency exceeds the intervention window, detective controls (sampling, audit) are not sufficient — add preventive or containment controls (entry constraints, action budgets, runtime invariants, kill switch), or prohibit the path by inserting a human gate.
 
 ## Contradiction log
 

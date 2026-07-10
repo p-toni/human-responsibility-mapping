@@ -16,9 +16,16 @@ The boundary states apply as usual:
 |---|---|
 | Human-owned | Human decomposes the work; AI executes assigned steps |
 | AI-assisted | AI proposes a plan; human approves or edits it before execution |
-| AI-executed | AI plans and re-plans as it goes; control mode governs the plan, not just the steps |
+| AI-executed | AI plans and re-plans as it goes; the control stack governs the plan, not just the steps |
 
-This maps cleanly onto published agent-autonomy ladders (Feng, McDonald & Zhang 2025's operator → collaborator → consultant → approver → observer roles): in this framework's terms, an agent's "autonomy level" is the boundary state of its orchestration row combined with the control modes on its execution rows. You do not need a separate autonomy taxonomy — you need the orchestration row filled in.
+This maps onto published agent-autonomy ladders (Feng, McDonald & Zhang 2025's operator → collaborator → consultant → approver → observer roles): in this framework's terms, an agent's "autonomy level" is the boundary state of its orchestration row combined with the control stacks on its execution rows. You do not need a separate autonomy taxonomy — you need the orchestration row filled in.
+
+One thing the ladder framing captures that a static row does not: **control transfer is dynamic.** The movement condition for any orchestration row above Human-owned must specify the transfer mechanics, not just the resting state:
+
+- **Takeover:** how a human reclaims control mid-plan, and what happens to in-flight actions when they do.
+- **Consultation triggers:** the conditions under which the agent must stop and ask (confidence drop, novel case class, action outside precedent) — and how those triggers are customized per deployment.
+- **Approval triggers:** which plan steps always require sign-off regardless of the agent's confidence.
+- **Emergency stop:** a stop the operator can pull without escalation, tested like any other control (a stop drill, not a stop button).
 
 Long-horizon and unattended agents (`observe -> hypothesize -> act -> evaluate -> reframe` loops) additionally need: a step budget or time budget, an explicit stop condition, and a defined escalation state when the loop stalls — these are movement conditions for the orchestration row.
 
@@ -45,9 +52,18 @@ The release rule gates one boundary at a time. Boundary moves compose: three ind
 
 After any move, trace the work architecture and enumerate **AI-only paths**: sequences of AI-executed steps a work item can traverse end to end with no human contact.
 
-For each path, record entry condition, expected volume, worst plausible outcome, and a **path-level control** — end-to-end sampling of completed cases that traversed the path, or a periodic audit that replays whole cases, not steps. Use the AI-only path table in `references/templates.md`.
+For each path, record entry condition, volume (mean and peak), worst plausible outcome, hazard class, and controls. **Controls must be commensurate with the hazard.** Four control types, in order of preference for serious harm:
 
-This is the core systems-safety point (Leveson 2011): accidents emerge from interactions between components that are each locally correct. For genuinely safety-critical systems, do not stop at this heuristic — run an actual hazard analysis (STPA) on the future-state work architecture.
+| Type | Examples |
+|---|---|
+| Preventive | Entry constraints, action allowlists, permission and action budgets, runtime invariants the system cannot cross |
+| Containment | Blast-radius caps (amount limits, tenant isolation, rate limits), kill switch the operator can pull without escalation |
+| Corrective | Rollback with a tested path, compensating actions, bounded detection-plus-intervention time |
+| Detective | End-to-end sampling of completed cases that traversed the path, periodic whole-case audits |
+
+Detective controls only observe harm after it escapes. They are sufficient alone only when the worst outcome is reversible *and* detection latency beats the intervention window. If the worst outcome is irreversible or time-sensitive beyond detection latency, the path needs preventive or containment controls — or should be prohibited outright by inserting a human gate. The validator enforces the minimum version of this rule: an `irreversible` path with detective-only controls fails validation.
+
+This is the core systems-safety point (Leveson 2011): accidents emerge from interactions between components that are each locally correct. For genuinely safety-critical systems, do not stop at this heuristic — run an actual hazard analysis (STPA) on the future-state work architecture. Use the AI-only path table in `references/templates.md`.
 
 ## System change invalidates evidence
 

@@ -77,14 +77,16 @@ Treat AI exposure, delegation, trust, and accountability as facets of the same b
 | AI-assisted | AI summarizes, suggests, ranks, drafts, or explains | Human chooses, edits, approves, decides |
 | AI-executed | AI takes bounded action, routes, updates, or triggers work | Human gates, monitors, audits, or governs |
 
-For AI-executed work, specify one control mode:
+For AI-executed work, specify a **control stack** — one or more modes. The modes cover different control categories (authorization, runtime constraint, review, recoverability) and compose: `policy-governed` + `rollback-required` is a common pair, not a contradiction.
 
-| Control mode | Meaning |
-|---|---|
-| `approve-before-action` | Human approves each action before it executes |
-| `policy-governed` | AI acts within bounded policy; humans review only policy exceptions or anomalies |
-| `sampling-review` | AI acts; humans review a sample post-hoc for QA and drift |
-| `rollback-required` | AI acts; system must support fast rollback if outcomes are wrong |
+| Control mode | Category | Meaning |
+|---|---|---|
+| `approve-before-action` | Authorization | Human approves each action before it executes |
+| `policy-governed` | Runtime constraint | AI acts within bounded policy; humans review only policy exceptions or anomalies |
+| `sampling-review` | Review | AI acts; humans review a sample post-hoc for QA and drift |
+| `rollback-required` | Recoverability | AI acts; system must support fast rollback if outcomes are wrong |
+
+A boundary that is AI-executed *today* keeps its current stack in the map even while a move to a lower state is under discussion — dropping the current controls from the record is how running systems end up ungoverned.
 
 These compress a longer literature on supervisory control and levels of automation (Sheridan 1992; Parasuraman, Sheridan & Wickens 2000). The watch-out is the soft edge between AI-assisted and AI-executed: a "draft humans always accept" is operationally executed under `approve-before-action`. If override rates fall below ~5%, treat the boundary as having moved whether the design says so or not. Override rate is also a Goodhart-vulnerable instrument — once it decides boundary moves or performance reviews, people bend it. Never use boundary telemetry for individual performance management, and triangulate before acting on it (see `references/oversight-viability.md`).
 
@@ -197,10 +199,11 @@ Accountability (does someone own the consequence?)
 [ ] Human-only decisions inside the boundary are preserved.
 
 Oversight viability (can humans actually do the retained part?)
-[ ] Review capacity is budgeted: expected volume at adequate review depth fits available human attention.
+[ ] Review capacity is budgeted at peak load, with sample sizes derived from a stated detection target — not average volume.
 [ ] The accountable owner has the authority, information, time, and skill to intervene — not accountability in name only.
+[ ] High-impact moves have independent challenge and affected-party recourse, not only a named owner.
 [ ] Retained human skills have a retention plan where this move erodes their practice.
-[ ] AI-only paths created or extended by this move are enumerated and controlled at path level.
+[ ] AI-only paths created or extended by this move are enumerated, with controls commensurate with their worst outcome — detective-only controls are insufficient where harm is irreversible.
 
 Durable ambiguity (have we preserved optionality?)
 [ ] We have identified what remains uncertain.
@@ -232,8 +235,9 @@ Load supporting files only when needed:
 - `examples/illustrative/security.md` — knowledge-work IC, exploratory + agentic.
 - `examples/illustrative/icu-bedside-nursing.md` — embodied, multi-patient, safety-critical (stress-tests the framework where its defaults break).
 - `examples/illustrative/customer-support-boundary-decision-record.md` — a gated boundary move rejected on oversight-viability grounds.
+- `schemas/human-responsibility-map.schema.json` — formal JSON Schema for machine-readable maps (versioned; validators must fail closed on unknown versions).
 - `schemas/agent-context-pack.example.yaml` — machine-readable example.
-- `scripts/validate_map.py` — structural linter for machine-readable maps (vocabulary, control-mode, and evidence-label rules).
+- `scripts/validate_map.py` — fail-closed validator: JSON Schema structure plus semantic rules (control stacks match states, gate `move` requires passing checks and a signed decision record, irreversible AI-only paths reject detective-only controls).
 - `evals/` — trigger evaluation artifacts (test set + per-model results).
 
 ## Guardrails

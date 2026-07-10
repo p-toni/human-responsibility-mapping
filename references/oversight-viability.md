@@ -10,15 +10,16 @@ This is also what regulators now require: EU AI Act Article 14 demands oversight
 
 ## Check 1: Review capacity is a budget, not a vibe
 
-`approve-before-action` and `sampling-review` consume human attention. That attention is finite and measurable:
+`approve-before-action` and `sampling-review` consume human attention. That attention is finite, measurable, and — critically — has to be sufficient at the worst moment, not on the average week. Four rules make the budget real:
 
-```text
-review hours needed = expected items × minutes per adequate review / 60
-```
+1. **Size the sample from a detection target.** "We review 10%" is meaningless without the volume behind it. Decide what failure rate must not go undetected, then size the sample: bounding an undetected failure rate at θ with ~95% confidence takes about `3 / θ` clean reviews in that stratum (the rule of three — Hanley & Lippman-Hand 1983). Bounding at 2.5% needs ~120 reviews; whether that is 10% or 40% of volume is a consequence, not a choice.
+2. **Stratify by risk.** A uniform sample mostly re-measures the easy majority. Rare, high-harm strata need their own sample and their own detection target.
+3. **Budget at peak, not steady state.** Volume spikes, incident surges, and staffing gaps arrive together; human-factors practice assesses workload under peaks and process upsets, not averages (UK HSE workload guidance). Keep planned reviewer utilization under ~80% — vigilance degrades with fatigue, and zero headroom means the first incident consumes the sampling budget.
+4. **Check the intervention SLA, not just the sample rate.** Detection that arrives after the harm window closes is bookkeeping, not oversight. The review cadence must beat the harm's timeline.
 
-If review hours needed exceeds review hours available, the control does not fail loudly — it degrades silently into rubber-stamping, and the boundary moves without anyone deciding. The override-collapse watch-out in `SKILL.md` (override rate below ~5% means the boundary has moved de facto) detects this failure after the fact. The capacity budget prevents scheduling it in the first place.
+If needed exceeds available, the control does not fail loudly — the sample rate decays silently toward what capacity allows, and the boundary moves without anyone deciding. The override-collapse watch-out in `SKILL.md` (override rate below ~5% means the boundary has moved de facto) detects this failure after the fact. The capacity budget prevents scheduling it in the first place.
 
-Use the Oversight capacity check template in `references/templates.md` before approving any move that adds review load. If the budget doesn't fit, the honest options are: narrower scope, a different control mode, more reviewers, or no move — not a quietly decaying sample rate.
+Use the Oversight capacity check template in `references/templates.md` before approving any move that adds review load. If the budget doesn't fit, the honest options are: narrower scope, different controls, more reviewers, or no move — not a quietly decaying sample rate.
 
 **Attention budget for AI-initiated work.** When AI initiates contact — alerts, suggestions, drafts, pings — every interrupt spends human attention whether or not it is useful. Alarm fatigue in clinical settings is the documented extreme (see the ICU example); notification fatigue in knowledge work is the common case. An AI that surfaces work faster than humans can absorb it degrades the very oversight it is supposed to enable. Budget interrupts like review load.
 
@@ -52,6 +53,11 @@ Meaningful control requires all four (cf. Santoni de Sio & van den Hoven 2018):
 
 Field test: ask the named accountable owner to describe the last time they overrode or stopped the system, and what it cost them. If the honest answer is "never, and trying would be career noise," the accountability facet is decorated, not satisfied.
 
+Two additions the owner test alone does not cover:
+
+- **Automation bias is a design input, not a character flaw.** EU AI Act Article 14 requires overseers to remain aware of the tendency to over-rely on system output. Design against it: show uncertainty where it exists, force occasional blind review (the reviewer judges before seeing the AI's answer), and track agreement rates — a reviewer who never disagrees is either overseeing a perfect system or not overseeing.
+- **High-impact moves need institutional oversight, not just an owner.** Green (2022)'s central remedy is institutional: an individual overseer can legitimate an unsafe system while being structurally unable to challenge it. For moves with large blast radius, add organizational risk acceptance (someone above the team formally accepts the residual risk), independent challenge (a party outside the deploying team who can block or escalate), and affected-party recourse (a working channel for the people the decisions land on to contest them).
+
 ## Check 4: The map's own telemetry will be gamed (Goodhart)
 
 Movement conditions in this framework run on telemetry: override rate, edit distance, escalation rate, sampled QA pass rate. The moment those numbers decide boundary moves — or worse, individual performance reviews — they stop being neutral measurements (Goodhart's law; Strathern 1997). Operators who understand that low override rates justify automation that threatens their role will bend the number in whichever direction protects them. The instrument is load-bearing, so protect it:
@@ -74,10 +80,11 @@ The stakeholder coverage template treats operators as a research source. Treat t
 These checks appear in the `SKILL.md` release rule as the **Oversight viability** group:
 
 ```text
-[ ] Review capacity is budgeted: expected volume at adequate review depth fits available human attention.
+[ ] Review capacity is budgeted at peak load, with sample sizes derived from a stated detection target.
 [ ] The accountable owner has the authority, information, time, and skill to intervene — not accountability in name only.
+[ ] High-impact moves have independent challenge and affected-party recourse, not only a named owner.
 [ ] Retained human skills have a retention plan where this move erodes their practice.
-[ ] AI-only paths created or extended by this move are enumerated and controlled at path level (see references/agentic-work.md).
+[ ] AI-only paths created or extended by this move are enumerated, with controls commensurate with their worst outcome (see references/agentic-work.md).
 ```
 
 If a move passes capability and evidence checks but fails oversight viability, the correct decision is *do not move* or *change the design of the human role*, not "move and monitor." Monitoring is itself an oversight activity that just failed the viability test.

@@ -67,12 +67,14 @@ The Oversight viability checks in the release rule restate a literature on why n
 
 - Bainbridge, L. (1983). Ironies of automation. *Automatica*, 19(6), 775–779. Automating routine work removes the practice that kept humans able to handle the exceptions routed to them.
 - Elish, M. C. (2019). Moral crumple zones: Cautionary tales in human-robot interaction. *Engaging Science, Technology, and Society*, 5, 40–60. Humans positioned to absorb liability for systems they cannot meaningfully control.
-- Green, B. (2022). The flaws of policies requiring human oversight of government algorithms. *Computer Law & Security Review*, 45, 105681. Empirical case that oversight-on-paper is the norm and functions as legitimation.
+- Green, B. (2022). The flaws of policies requiring human oversight of government algorithms. *Computer Law & Security Review*, 45, 105681. Empirical case that oversight-on-paper is the norm and functions as legitimation; the central remedy is institutional oversight, which the independent-challenge and affected-party-recourse checks follow.
 - Santoni de Sio, F., & van den Hoven, J. (2018). Meaningful human control over autonomous systems: A philosophical account. *Frontiers in Robotics and AI*, 5, 15. The tracking/tracing conditions behind the authority–information–time–capability test.
 - Strathern, M. (1997). 'Improving ratings': Audit in the British university system. *European Review*, 5(3), 305–321. The standard formulation of Goodhart's law, applied here to the map's own telemetry.
+- Hanley, J. A., & Lippman-Hand, A. (1983). If nothing goes wrong, is everything all right? Interpreting zero numerators. *JAMA*, 249(13), 1743–1745. The rule of three used to size review samples from a detection target.
+- UK Health and Safety Executive. *Human factors: workload* guidance. Staffing and workload assessed under peaks, emergencies, and process upsets — not steady-state averages; the basis for budgeting review capacity at peak.
 - Shneiderman, B. (2022). *Human-Centered AI.* Oxford University Press. High automation and high human control as a two-dimensional space, not a slider.
 - Regulation (EU) 2024/1689 (EU AI Act), Article 14. Human oversight for high-risk systems must be *effective* — the overseer must be able to understand, monitor, intervene, and interrupt — and designed with automation bias in mind.
-- NIST (2023). *AI Risk Management Framework 1.0*; NIST (2024). *Generative AI Profile* (NIST-AI-600-1). Govern/map/measure/manage risk vocabulary that release gates and telemetry plans should be legible to.
+- NIST (2023). *AI Risk Management Framework 1.0*; NIST (2024). *Generative AI Profile* (NIST-AI-600-1). Govern/map/measure/manage risk vocabulary that release gates and telemetry plans should be legible to. NIST stresses its actions are not a checklist; this framework's gates are decision points inside continuous risk management, not a substitute for it.
 
 What this framework borrows: oversight is a resource-constrained activity that fails structurally, not just occasionally; naming an accountable owner is not the same as giving them control. What it doesn't claim: a new oversight theory or a compliance mapping to Article 14.
 
@@ -92,7 +94,7 @@ The guidance in `references/agentic-work.md` aligns the framework with the agent
 - Shavit, Y., et al. (2023). *Practices for governing agentic AI systems.* OpenAI. Practical governance measures for agentic deployments, including human approval points and incident readiness.
 - Mitchell, M., Ghosh, A., Luccioni, A. S., & Pistilli, G. (2025). Fully autonomous AI agents should not be developed. arXiv:2502.02649. Autonomy-level scale and the argument for retaining human control points.
 
-What this framework borrows: autonomy is a design decision, not a capability consequence. What it adds: the observation that an agent's autonomy level decomposes into this framework's existing vocabulary — the boundary state of the orchestration row plus the control modes of the execution rows — so no separate autonomy taxonomy is needed inside a map.
+What this framework borrows: autonomy is a design decision, not a capability consequence; and the ladder's dynamic distinctions — control transfer, consultation triggers, customizable approval triggers, takeover, emergency stop — which the orchestration row must carry as movement conditions, not lose in a static state label. What it adds: the observation that an agent's resting autonomy level decomposes into this framework's existing vocabulary — the boundary state of the orchestration row plus the control stacks of the execution rows — so no separate autonomy taxonomy is needed inside a map.
 
 ## Personas as versioned hypotheses
 

@@ -18,7 +18,7 @@ Use one concept: **Boundary**.
 | AI-assisted | AI summarizes, suggests, ranks, drafts, or explains | Human chooses, edits, approves, decides |
 | AI-executed | AI takes bounded action, routes, updates, or triggers work | Human gates, monitors, audits, or governs |
 
-For `AI-executed`, specify one `control_mode`: `approve-before-action`, `policy-governed` (AI acts within bounded policy; humans review only exceptions or anomalies), `sampling-review`, or `rollback-required`. See `SKILL.md` for full definitions and the watch-out about implicit boundary movement when override rates collapse.
+For `AI-executed`, specify a control stack — one or more of `approve-before-action`, `policy-governed` (AI acts within bounded policy; humans review only exceptions or anomalies), `sampling-review`, and `rollback-required`. The modes cover different categories (authorization, runtime constraint, review, recoverability) and compose. Record the current stack and the target stack separately: a boundary that is AI-executed today needs its current controls in the map even mid-move. See `SKILL.md` for full definitions and the watch-out about implicit boundary movement when override rates collapse.
 
 ## Granularity rule
 

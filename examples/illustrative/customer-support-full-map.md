@@ -68,7 +68,7 @@ Evidence label: `ai_generated_hypothesis`
 
 ## Responsibility Boundaries
 
-| Responsibility | Current human owner | AI role now/next | Boundary state now | Target state | Control mode if AI-executed | Movement condition | Human still owns | Evidence label | Source ref |
+| Responsibility | Current human owner | AI role now/next | Boundary state now | Target state | Controls if AI-executed | Movement condition | Human still owns | Evidence label | Source ref |
 |---|---|---|---|---|---|---|---|---|---|
 | Classify ticket intent and product area | Support agent | Classify from ticket text, customer metadata, and product taxonomy | Human-owned | AI-executed | `policy-governed` | Team-defined confidence threshold; taxonomy eval; visible routing rationale; exception queue for low-confidence cases | Taxonomy policy, exception handling, misroute review | `ai_generated_hypothesis` | `public-intercom-fin-safety`; `internal-routing-eval-placeholder` |
 | Classify risk tier | Support lead | Flag high-value account, compliance-sensitive request, emotional tone, refund/cancel intent, or unsafe action | Human-owned | AI-assisted | n/a | Risk policy reviewed by support, legal/compliance, and product; false-negative review on historical cases | Risk policy and final override | `ai_generated_hypothesis` | `internal-risk-policy-placeholder` |
@@ -160,9 +160,9 @@ Evidence label for all rows: `ai_generated_hypothesis`
 
 Target states above create one candidate end-to-end AI-only chain. Row-level samples do not cover the chain; the path needs its own control.
 
-| Path (AI-executed steps in sequence) | Entry condition | Expected volume | Worst plausible outcome | Path-level control | Owner |
-|---|---|---:|---|---|---|
-| Classify intent (`policy-governed`) -> send low-risk acknowledgement (`sampling-review`) | Ticket classified low-risk, non-sensitive, eligible category | Unknown until shadow mode | Misclassified sensitive case acknowledged by AI with no human contact | End-to-end sample of completed AI-only cases, reviewed as whole cases; misclassification feeds back to eligibility policy | Support lead |
+| Path (AI-executed steps in sequence) | Entry condition | Volume (mean / peak) | Worst plausible outcome | Hazard class | Controls (type: control) | Owner |
+|---|---|---|---|---|---|---|
+| Classify intent (`policy-governed`) -> send low-risk acknowledgement (`sampling-review`) | Ticket classified low-risk, non-sensitive, eligible category | Unknown until shadow mode | Misclassified sensitive case acknowledged by AI with no human contact | Reversible (correctable by follow-up); detection latency ~days via reopens | preventive: sensitive-category blocklist at path entry; detective: end-to-end sample of completed AI-only cases reviewed as whole cases; corrective: human follow-up on detected misclassification | Support lead |
 
 Evidence label: `ai_generated_hypothesis`
 
@@ -193,10 +193,11 @@ Boundary or work-architecture shift: low-risk support ticket classification, ack
 
 ## Oversight Viability
 
-[ ] Sampling and approval load is budgeted against actual QA and lead capacity, per the oversight capacity check.
+[ ] Sampling and approval load is budgeted at peak volume with a stated detection target, per the oversight capacity check.
 [ ] Accountable owner passes the authority / information / time / skill test, including a stop drill.
+[ ] Independent challenge and customer recourse exist for the auto-send boundary (someone outside support ops can block; customers can reach a human).
 [ ] Skill and context retention plan exists for agents whose routine work moves to AI (acknowledgements are the new-agent on-ramp).
-[ ] AI-only paths are enumerated with a path-level control (see AI-Only Paths above).
+[ ] AI-only paths are enumerated with hazard-commensurate controls (see AI-Only Paths above).
 
 ## Evals
 
