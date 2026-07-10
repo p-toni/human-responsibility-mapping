@@ -20,8 +20,22 @@ A Human Responsibility Map usually includes:
 - Eval plan
 - Telemetry plan
 - Release gate
+- AI-only path analysis
+- Boundary decision records
 
 For a complete synthetic example, see [`examples/illustrative/customer-support-full-map.md`](examples/illustrative/customer-support-full-map.md), including its deterministic visual summary [`customer-support-boundary-map.svg`](examples/illustrative/customer-support-boundary-map.svg).
+
+## What changed in v0.4
+
+v0.4 answers the strongest critique of v0.3: the release rule checked the AI side of every boundary and the paperwork side of accountability, but never whether the humans could actually do the part the map said they retained.
+
+- Added the **Oversight viability** group to the release rule: review capacity is a budget, accountable owners need authority/information/time/skill (not accountability in name only), retained skills need retention plans (ironies of automation), and AI-only paths need path-level controls.
+- Added `references/oversight-viability.md` — capacity math, skill retention, moral crumple zones, Goodhart-proofing the map's own telemetry, and the residue problem (read the "Human still owns" column as a job description).
+- Added `references/agentic-work.md` — orchestration as a responsibility row (agent autonomy levels expressed in the existing three-state vocabulary), AI reviewers get their own row and eval, accountability chains terminate in humans, AI-to-AI handoffs, and system-change revalidation (a boundary validated on model N is unvalidated on model N+1).
+- Added **Boundary Decision Records** (ADRs for boundary moves), an **oversight capacity check**, and an **AI-only path table** to the templates — plus a worked decision record where a move passes every v0.3 check and is rejected on oversight viability.
+- Made `schemas/` real: `system_dependencies` version pinning in the map schema and `scripts/validate_map.py`, a structural linter so maps can live in repos and be checked in CI.
+- Extended prior art with the oversight-limits literature (Bainbridge 1983, Elish 2019, Green 2022, Santoni de Sio & van den Hoven 2018), systems safety (Leveson 2011), agent-autonomy frameworks (Feng, McDonald & Zhang 2025; Shavit et al. 2023; Mitchell et al. 2025), and the regulatory bar (EU AI Act Article 14, NIST AI RMF).
+- Subgroup parity joined the capability checks; the minimum snapshot now carries the evidence-label column it always should have had.
 
 ## What changed in v0.3
 
@@ -99,6 +113,8 @@ human-responsibility-mapping/
     prior-art.md
     application-modes.md
     durable-ambiguity.md
+    oversight-viability.md
+    agentic-work.md
     templates.md
     workshop.md
   examples/
@@ -107,12 +123,14 @@ human-responsibility-mapping/
       customer-support.md
       customer-support-full-map.md
       customer-support-boundary-map.svg
+      customer-support-boundary-decision-record.md
       security.md
       icu-bedside-nursing.md
   schemas/
     agent-context-pack.example.yaml
   scripts/
     description_self_report.py
+    validate_map.py
   evals/
     trigger-eval.json
     trigger-eval-results-haiku-4.5.json
@@ -150,7 +168,7 @@ If you want the skill's structured output on an advisory question, invoke it exp
 Use the human-responsibility-mapping skill to think through [WORK DOMAIN].
 ```
 
-See `evals/README.md` for the trigger evaluation artifacts across Haiku 4.5 and Sonnet 4.6 — the 12-query test set, per-query trigger rates from the canonical skill-creator harness, and a separate self-report sanity-check script in `scripts/`. Specificity is perfect (no false positives on adjacent topics like marketing personas, plain RACI, or no-AI journey maps); recall is partial and structural.
+See `evals/README.md` for the trigger evaluation artifacts across Haiku 4.5 and Sonnet 4.6 — the 14-query test set, per-query trigger rates from the canonical skill-creator harness, and a separate self-report sanity-check script in `scripts/`. Committed baselines predate the v0.4 description; rerun before citing numbers. Specificity is perfect (no false positives on adjacent topics like marketing personas, plain RACI, or no-AI journey maps); recall is partial and structural.
 
 ## License
 

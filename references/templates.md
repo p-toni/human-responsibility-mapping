@@ -10,8 +10,8 @@
 ## Old constraints
 ## Main roles
 
-| Responsibility | Human owner today | AI role now/next | Boundary state now | Target state | Movement condition | Human still owns |
-|---|---|---|---|---|---|---|
+| Responsibility | Human owner today | AI role now/next | Boundary state now | Target state | Movement condition | Human still owns | Evidence label |
+|---|---|---|---|---|---|---|---|
 
 ## Trust / accountability requirements
 ## Work architecture shift
@@ -19,6 +19,7 @@
 ## Eval implications
 ## Telemetry signals
 ## Open assumptions and contradictions
+## Stakeholder coverage
 ```
 
 ## Evidence ledger
@@ -109,6 +110,45 @@ Boundary or work-architecture shift:
 [ ] Drift or degradation can be detected.
 
 Decision: Move / do not move / validate further
+```
+
+## Boundary decision record
+
+One per move / do-not-move decision. This is the audit trail the accountability facet depends on — an ADR for boundaries.
+
+```markdown
+# Boundary Decision Record: [responsibility]
+
+- Date / map version:
+- System versions (model, prompts, tools, corpus):
+- Boundary: [current state] -> [proposed state] ([control mode if AI-executed])
+- Decision: move / do not move / validate further
+- Release rule result: [which checks passed and failed, with evidence links]
+- Oversight viability: [capacity math, skill-retention plan, owner authority test]
+- Dissent and unresolved objections: [who disagreed and why — record it, do not erase it]
+- Rollback plan and trigger:
+- Revisit date or trigger:
+- Accountable owner sign-off:
+```
+
+## Oversight capacity check
+
+Run before any move that adds `approve-before-action` or `sampling-review` load. If needed exceeds available, the control will silently degrade into rubber-stamping — change scope, control mode, or staffing instead.
+
+```markdown
+| AI-executed responsibility | Control mode | Expected items/week | Minutes per adequate review | Review hours needed | Review hours available | Fits? |
+|---|---|---:|---:|---:|---:|---|
+```
+
+Count AI-initiated interrupts (alerts, suggestions, pings) in the same budget: attention spent absorbing them is attention unavailable for review.
+
+## AI-only path table
+
+After any boundary move, trace the work architecture for sequences of AI-executed steps a work item can traverse with no human contact. Row-level controls do not cover chains; each path needs a path-level control (end-to-end sampling of completed cases, or periodic whole-case audit).
+
+```markdown
+| Path (AI-executed steps in sequence) | Entry condition | Expected volume | Worst plausible outcome | Path-level control | Owner |
+|---|---|---:|---|---|---|
 ```
 
 ## Contradiction log

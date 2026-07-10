@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.4.0
+
+Theme: the v0.3 release rule gated the AI side of every boundary and the paperwork side of accountability; it never checked whether the retained human role was performable, whether boundaries compose safely, or whether the evidence survives a model upgrade. v0.4 closes those gaps.
+
+### Added
+
+- **Oversight viability** group in the SKILL.md release rule: review capacity budgeted, accountable owner passes an authority/information/time/skill test, skill-retention plan where the move erodes practice, AI-only paths enumerated and controlled at path level.
+- `references/oversight-viability.md`: review-capacity math and attention budgets for AI-initiated work, skill retention (Bainbridge's ironies of automation), moral-crumple-zone test for accountable owners, Goodhart-proofing rules for boundary telemetry (never use it for individual performance management; triangulate; watch denominators; expect instrument decay), and the residue problem (read "Human still owns" as a job description).
+- `references/agentic-work.md`: orchestration mapped as its own responsibility row instead of a fourth boundary state (published agent-autonomy levels decompose into the orchestration row's state plus execution-row control modes), AI-as-reviewer rules (own row, judge-validation eval, accountability chains terminate in humans), AI-to-AI handoff seams, AI-only path composition analysis, and system-change revalidation with pinned model/prompt/tool/corpus versions.
+- Templates: **Boundary decision record** (ADR for boundary moves, with a dissent field), **Oversight capacity check**, and **AI-only path table** in `references/templates.md`.
+- `examples/illustrative/customer-support-boundary-decision-record.md`: a worked decision record where the acknowledgement boundary move passes every v0.3 check and is rejected on oversight viability (review capacity 3 h/week against an 8 h/week sampling load, no skill-retention plan, uncontrolled AI-only path).
+- `scripts/validate_map.py`: structural linter for machine-readable maps — vocabulary enums, control-mode cross-field rules, evidence labels, release-gate sections and decision enum, `system_dependencies` and `ai_only_paths` presence when any boundary is AI-executed. Mutation-tested against seeded violations.
+- `schemas/agent-context-pack.example.yaml`: `system_dependencies` version pinning, `oversight_viability` release-gate section, `ai_only_paths`, `decision_records`; `schema_version` 0.4; gate decision normalized to the move / do_not_move / validate_further enum.
+- Prior art: Bainbridge 1983, Elish 2019, Green 2022, Santoni de Sio & van den Hoven 2018, Strathern 1997, Shneiderman 2022, EU AI Act Article 14, NIST AI RMF, Leveson 2011, Feng/McDonald/Zhang 2025, Shavit et al. 2023, Mitchell et al. 2025. Additive-contributions list extended with the oversight-viability gate packaging and the orchestration-row move.
+- `Map maintenance` section in `references/core-concepts.md`: every map names an owner, a home, refresh triggers (behavioral and system-change), and a decision history.
+- Trigger-eval queries 13–14 (agent-autonomy should-trigger, agent-engineering should-not-trigger).
+
+### Changed
+
+- SKILL.md release rule: capability check now requires subgroup coverage; durable-ambiguity checks now include system-change refresh triggers; failing oversight viability means "redesign the human role," not "move and monitor"; every decision produces a Boundary Decision Record.
+- SKILL.md control-mode watch-out extended: override rate is Goodhart-vulnerable, and human-review control modes must be capacity-budgeted up front, not just monitored for override collapse after the fact.
+- SKILL.md special work shapes: agentic systems map `plan and sequence the work` as its own row; AI reviewers get their own row and eval.
+- SKILL.md description: added "how much autonomy should our agent have?" and human-in-the-loop/oversight-design trigger phrases (dropped "sales" to stay under the 1024-char loader limit; 982 chars). **Committed eval baselines predate this description — rerun the canonical harness before citing trigger numbers.**
+- Minimum snapshot template (SKILL.md and `references/templates.md`) gains the evidence-label column the evidence policy always implied; templates.md snapshot gains the missing Stakeholder coverage heading, aligning it with SKILL.md.
+- `examples/illustrative/customer-support-full-map.md`: added AI-only path analysis and an Oversight Viability section to the release gate; linked the new decision record.
+- `examples/illustrative/icu-bedside-nursing.md`: alarm fatigue cross-linked as the clinical extreme of the general attention-budget rule.
+
 ## v0.3.8
 
 ### Added

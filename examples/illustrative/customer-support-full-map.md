@@ -156,6 +156,18 @@ Evidence label for all rows: `ai_generated_hypothesis`
 
 Evidence label for all rows: `ai_generated_hypothesis`
 
+## AI-Only Paths
+
+Target states above create one candidate end-to-end AI-only chain. Row-level samples do not cover the chain; the path needs its own control.
+
+| Path (AI-executed steps in sequence) | Entry condition | Expected volume | Worst plausible outcome | Path-level control | Owner |
+|---|---|---:|---|---|---|
+| Classify intent (`policy-governed`) -> send low-risk acknowledgement (`sampling-review`) | Ticket classified low-risk, non-sensitive, eligible category | Unknown until shadow mode | Misclassified sensitive case acknowledged by AI with no human contact | End-to-end sample of completed AI-only cases, reviewed as whole cases; misclassification feeds back to eligibility policy | Support lead |
+
+Evidence label: `ai_generated_hypothesis`
+
+See [`customer-support-boundary-decision-record.md`](customer-support-boundary-decision-record.md) for the decision record where this path — and the review-capacity budget behind the sampling control — blocks the acknowledgement boundary move.
+
 ## Release Gate
 
 Boundary or work-architecture shift: low-risk support ticket classification, acknowledgement, escalation, and bounded reversible action.
@@ -178,6 +190,13 @@ Boundary or work-architecture shift: low-risk support ticket classification, ack
 [ ] Accountable owner is explicit for each AI-executed boundary.
 [ ] Exception handler has stop authority and an escalation SLA.
 [ ] Human-only decisions are preserved for policy exceptions, residual risk, empathy-heavy cases, and regulated/sensitive categories.
+
+## Oversight Viability
+
+[ ] Sampling and approval load is budgeted against actual QA and lead capacity, per the oversight capacity check.
+[ ] Accountable owner passes the authority / information / time / skill test, including a stop drill.
+[ ] Skill and context retention plan exists for agents whose routine work moves to AI (acknowledgements are the new-agent on-ramp).
+[ ] AI-only paths are enumerated with a path-level control (see AI-Only Paths above).
 
 ## Evals
 

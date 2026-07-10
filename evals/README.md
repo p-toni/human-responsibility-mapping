@@ -6,9 +6,11 @@ There is also a **self-report sanity-check script** in this repo at `scripts/des
 
 ## Files
 
-- `trigger-eval.json` — 12 realistic queries (6 should-trigger bullseye, 6 should-not-trigger near-misses).
+- `trigger-eval.json` — 14 realistic queries (7 should-trigger bullseye, 7 should-not-trigger near-misses). Queries 13–14 (agent-autonomy pair) were added in v0.4.
 - `trigger-eval-results-haiku-4.5.json` — skill-creator harness, `claude-haiku-4-5-20251001`, 3 runs/query.
 - `trigger-eval-results-sonnet-4.6.json` — skill-creator harness, `claude-sonnet-4-6`, 3 runs/query.
+
+**Baseline staleness:** the committed result files were produced against the 12-query set and the v0.3.7 description. The v0.4 description adds agent-autonomy and oversight trigger phrases; rerun the canonical harness before citing trigger numbers for v0.4.
 
 ## Result
 

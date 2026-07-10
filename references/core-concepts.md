@@ -40,6 +40,15 @@ Avoid first moves where failure is irreversible, evidence is weak, or accountabi
 
 A map is good enough when it changes what to build, what not to automate, what eval to run, what telemetry to add, what human control to preserve, what work architecture to redesign, or what assumption to validate next.
 
+## Map maintenance
+
+A map with no owner is a workshop artifact, not an operating one. Every map names:
+
+- **An owner** — one person accountable for the map staying true, usually the product owner of the AI capability.
+- **A home** — where the current version lives (repo, wiki page, planning doc). Machine-readable maps (`schemas/`) can live in the repo and be linted in CI with `scripts/validate_map.py`.
+- **Refresh triggers** — behavioral contradictions (see `references/durable-ambiguity.md`) and system changes: model, prompt, tool, or corpus version changes invalidate the evidence behind affected boundaries until evals re-run (see `references/agentic-work.md`).
+- **Decision history** — one Boundary Decision Record per move / do-not-move decision (`references/templates.md`), so accountability has an audit trail instead of a recollection.
+
 ## Durable ambiguity
 
 For full guidance on ambiguity-aware mapping, optionality, multiple-hypothesis tables, and contradiction handling, see `references/durable-ambiguity.md`.

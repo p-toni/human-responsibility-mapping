@@ -1,8 +1,18 @@
 work_domain: enterprise_customer_support
-schema_version: "0.3"
+schema_version: "0.4"
 last_updated: null
 owner: "product-team"
 confidence: "medium"
+
+# Boundary evidence is validated against a specific system. Pin the versions;
+# any change here is a refresh trigger: affected boundaries are unvalidated
+# until required evals re-run.
+system_dependencies:
+  model_version: "pinned-model-id"
+  prompt_version: "prompts@git-sha-or-tag"
+  tool_versions: ["ticketing-api@2.3"]
+  retrieval_corpus_version: "kb-snapshot-2026-07-01"
+  revalidation_rule: "re-run required evals before boundary states persist"
 
 evidence_policy:
   missing_evidence_label_means: "unvalidated"
@@ -73,6 +83,11 @@ release_gate:
     - "accountable_owner_explicit"
     - "human_only_decisions_preserved"
     - "escalation_path_exists"
+  oversight_viability:
+    - "review_capacity_budgeted"
+    - "accountable_owner_has_authority_information_time_skill"
+    - "skill_retention_plan_where_practice_erodes"
+    - "ai_only_paths_enumerated_and_controlled"
   evals:
     - "required_evals_defined"
     - "required_evals_pass"
@@ -83,8 +98,15 @@ release_gate:
     - "misuse_measurable"
     - "rejection_or_abandonment_measurable"
     - "drift_or_degradation_detectable"
-  decision: "do_not_move_until_pilot_complete"
+  decision: "validate_further"  # one of: move / do_not_move / validate_further
 
+# Sequences of AI-executed steps a work item can traverse with no human contact.
+# Empty is a claim, not a default: enumerate after any move creates or extends a chain.
+ai_only_paths: []
+
+# One entry per move / do-not-move decision; see the Boundary Decision Record
+# template in references/templates.md.
+decision_records: []
 
 durable_ambiguity:
   uncertainty_status: "active"

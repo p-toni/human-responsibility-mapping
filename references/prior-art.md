@@ -61,6 +61,39 @@ The "show users a plausible AI capability and observe trust/resistance" method i
 
 What this framework borrows: the idea of using concrete capability demos to discover delegation boundaries. What it doesn't claim: a new research method. "Capability confrontation" was deprecated as a term in earlier drafts because it added nothing to existing technology probe / Wizard of Oz practice.
 
+## Oversight viability and the limits of human-in-the-loop
+
+The Oversight viability checks in the release rule restate a literature on why nominal human oversight fails structurally.
+
+- Bainbridge, L. (1983). Ironies of automation. *Automatica*, 19(6), 775–779. Automating routine work removes the practice that kept humans able to handle the exceptions routed to them.
+- Elish, M. C. (2019). Moral crumple zones: Cautionary tales in human-robot interaction. *Engaging Science, Technology, and Society*, 5, 40–60. Humans positioned to absorb liability for systems they cannot meaningfully control.
+- Green, B. (2022). The flaws of policies requiring human oversight of government algorithms. *Computer Law & Security Review*, 45, 105681. Empirical case that oversight-on-paper is the norm and functions as legitimation.
+- Santoni de Sio, F., & van den Hoven, J. (2018). Meaningful human control over autonomous systems: A philosophical account. *Frontiers in Robotics and AI*, 5, 15. The tracking/tracing conditions behind the authority–information–time–capability test.
+- Strathern, M. (1997). 'Improving ratings': Audit in the British university system. *European Review*, 5(3), 305–321. The standard formulation of Goodhart's law, applied here to the map's own telemetry.
+- Shneiderman, B. (2022). *Human-Centered AI.* Oxford University Press. High automation and high human control as a two-dimensional space, not a slider.
+- Regulation (EU) 2024/1689 (EU AI Act), Article 14. Human oversight for high-risk systems must be *effective* — the overseer must be able to understand, monitor, intervene, and interrupt — and designed with automation bias in mind.
+- NIST (2023). *AI Risk Management Framework 1.0*; NIST (2024). *Generative AI Profile* (NIST-AI-600-1). Govern/map/measure/manage risk vocabulary that release gates and telemetry plans should be legible to.
+
+What this framework borrows: oversight is a resource-constrained activity that fails structurally, not just occasionally; naming an accountable owner is not the same as giving them control. What it doesn't claim: a new oversight theory or a compliance mapping to Article 14.
+
+## Systems safety and composition
+
+The AI-only path check restates a systems-safety principle.
+
+- Leveson, N. G. (2011). *Engineering a Safer World: Systems Thinking Applied to Safety.* MIT Press. STAMP/STPA: accidents emerge from unsafe interactions between components that are each locally correct, so hazards must be analyzed on the control structure, not per component.
+
+What this framework borrows: gate paths, not just rows. What it doesn't claim: to substitute for STPA — safety-critical systems should run the real analysis on the future-state work architecture.
+
+## Agent autonomy and agentic governance
+
+The guidance in `references/agentic-work.md` aligns the framework with the agent-autonomy literature.
+
+- Feng, K. K., McDonald, D. W., & Zhang, A. X. (2025). Levels of autonomy for AI agents. arXiv:2506.12469; Knight First Amendment Institute. Five user roles (operator, collaborator, consultant, approver, observer); autonomy as a designable property separate from capability.
+- Shavit, Y., et al. (2023). *Practices for governing agentic AI systems.* OpenAI. Practical governance measures for agentic deployments, including human approval points and incident readiness.
+- Mitchell, M., Ghosh, A., Luccioni, A. S., & Pistilli, G. (2025). Fully autonomous AI agents should not be developed. arXiv:2502.02649. Autonomy-level scale and the argument for retaining human control points.
+
+What this framework borrows: autonomy is a design decision, not a capability consequence. What it adds: the observation that an agent's autonomy level decomposes into this framework's existing vocabulary — the boundary state of the orchestration row plus the control modes of the execution rows — so no separate autonomy taxonomy is needed inside a map.
+
 ## Personas as versioned hypotheses
 
 The "treat personas as hypotheses with invalidation conditions" framing is from Lean UX.
@@ -90,8 +123,10 @@ The framework integrates the above. It does not invent anything large. The narro
 3. The **Exception handler** and **Governance owner** roles in the role taxonomy, which extend RACI/RAPID for systems that generate exceptions and policy questions at scale.
 4. The **integration packaging itself** — one map that connects boundary decisions, trust requirements, work-architecture redesign, evals, telemetry, release gates, and persona views, scoped for AI product teams.
 5. The **durable ambiguity stance** — applying option-preserving / real-options reasoning to AI-product boundary decisions specifically.
+6. The **Oversight viability gate** — packaging the ironies-of-automation, crumple-zone, and review-capacity findings as release-blocking checks rather than background reading.
+7. The **orchestration-row move** — expressing agent autonomy levels inside the existing three-state vocabulary by mapping planning as a responsibility unit, instead of adding an autonomy taxonomy.
 
-Items 1–3 are small extensions of existing frameworks. Items 4–5 are operational glue and stance, not new theory.
+Items 1–3 are small extensions of existing frameworks. Items 4–5 are operational glue and stance, not new theory. Items 6–7 are compressions of existing literature into gate checks and mapping moves.
 
 ## What this framework does not claim
 
