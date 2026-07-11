@@ -18,11 +18,12 @@ Do not copy thresholds, rows, or release criteria into a real PRD without replac
 
 If you only have two minutes, read:
 
-1. Responsibility Boundaries
-2. Release Gate
-3. Open Assumptions and Contradiction Signals
+1. Responsibility Boundaries (control stacks on AI-executed targets)
+2. Oversight Capacity Check + AI-Only Paths
+3. Release Gate (including Oversight Viability and Durable Ambiguity)
+4. The linked Boundary Decision Record (acknowledgement: do not move)
 
-The remaining sections show the supporting evidence, stakeholder coverage, eval, and telemetry detail a real team would need before moving boundaries.
+The remaining sections show map maintenance, supporting evidence, stakeholder coverage, eval, and telemetry detail a real team would need before moving boundaries.
 
 ## Visual Map
 
@@ -33,6 +34,19 @@ The remaining sections show the supporting evidence, stakeholder coverage, eval,
 Customer support ticket handling for a B2B SaaS product with email, chat, and in-product support requests.
 
 Evidence label: `ai_generated_hypothesis`
+
+## Map Maintenance
+
+Per `references/core-concepts.md`, a map without owner, home, refresh triggers, and decision history is a workshop artifact, not an operating one.
+
+| Field | Value | Evidence label |
+|---|---|---|
+| Map owner | Support product owner (placeholder) | `ai_generated_hypothesis` |
+| Home | This file (synthetic); real teams keep the map in repo or wiki and lint machine-readable copies with `scripts/validate_map.py` | `ai_generated_hypothesis` |
+| System dependencies | `pinned-model-id`; `prompts@a1b2c3d`; `ticketing-api@2.3`; `kb-snapshot-2026-06-15` — any change revalidates affected boundaries | `ai_generated_hypothesis` |
+| Behavioral refresh triggers | Override rate, reopen rate, sampled QA fail rate, "feels robotic" feedback, sensitive-case leakage into auto paths, rollback failures | `ai_generated_hypothesis` |
+| System-change refresh triggers | Model, prompt, tool, or retrieval-corpus version change → required evals re-run before target states remain valid | `ai_generated_hypothesis` |
+| Decision history | [`customer-support-boundary-decision-record.md`](customer-support-boundary-decision-record.md) (acknowledgement move: do not move) | `ai_generated_hypothesis` |
 
 ## Current Work Architecture
 
@@ -68,15 +82,17 @@ Evidence label: `ai_generated_hypothesis`
 
 ## Responsibility Boundaries
 
-| Responsibility | Current human owner | AI role now/next | Boundary state now | Target state | Controls if AI-executed | Movement condition | Human still owns | Evidence label | Source ref |
+Control stacks apply only to AI-executed states and compose across categories (authorization / runtime constraint / review / recoverability). Record **current** and **target** stacks separately: a boundary that is AI-executed today keeps its current stack in the map even mid-move. In this synthetic map every current state is Human-owned or AI-assisted, so current stacks are empty; target stacks appear in the Controls column.
+
+| Responsibility | Current human owner | AI role now/next | Boundary state now | Target state | Target control stack (if AI-executed) | Movement condition | Human still owns | Evidence label | Source ref |
 |---|---|---|---|---|---|---|---|---|---|
-| Classify ticket intent and product area | Support agent | Classify from ticket text, customer metadata, and product taxonomy | Human-owned | AI-executed | `policy-governed` | Team-defined confidence threshold; taxonomy eval; visible routing rationale; exception queue for low-confidence cases | Taxonomy policy, exception handling, misroute review | `ai_generated_hypothesis` | `public-intercom-fin-safety`; `internal-routing-eval-placeholder` |
+| Classify ticket intent and product area | Support agent | Classify from ticket text, customer metadata, and product taxonomy | Human-owned | AI-executed | `policy-governed` | Team-defined confidence threshold; taxonomy eval; visible routing rationale; exception queue for low-confidence cases; subgroup accuracy on product area and customer segment | Taxonomy policy, exception handling, misroute review | `ai_generated_hypothesis` | `public-intercom-fin-safety`; `internal-routing-eval-placeholder` |
 | Classify risk tier | Support lead | Flag high-value account, compliance-sensitive request, emotional tone, refund/cancel intent, or unsafe action | Human-owned | AI-assisted | n/a | Risk policy reviewed by support, legal/compliance, and product; false-negative review on historical cases | Risk policy and final override | `ai_generated_hypothesis` | `internal-risk-policy-placeholder` |
 | Gather context | Support agent | Build source-linked context pack from ticket history, account state, known incidents, docs, and recent releases | AI-assisted | AI-assisted | n/a | Source fidelity eval; every generated claim links to an inspectable source; agent can remove bad context | Final interpretation of context | `ai_generated_hypothesis` | `public-zendesk-ai-agent-tickets`; `internal-context-eval-placeholder` |
 | Draft initial response | Support agent | Draft response with source links, policy checks, and uncertainty notes | AI-assisted | AI-assisted | n/a | Response correctness eval; policy-compliance eval; agent edit distance tracked; no auto-send for high-risk cases | Customer-facing send decision for reviewed cases | `ai_generated_hypothesis` | `internal-response-eval-placeholder` |
-| Send low-risk acknowledgement | Support agent | Send acknowledgement or status update for low-risk, reversible, non-sensitive cases | Human-owned | AI-executed | `sampling-review` | Eligibility policy; customer-visible AI disclosure where required; sample review; confidence/risk blocklist; easy escalation path | Policy definition, sampled QA, escalation rules | `ai_generated_hypothesis` | `public-eu-ai-act-transparency`; `internal-sampling-policy-placeholder` |
+| Send low-risk acknowledgement | Support agent | Send acknowledgement or status update for low-risk, reversible, non-sensitive cases | Human-owned | AI-executed | `sampling-review` | Eligibility policy; customer-visible AI disclosure where required; sample sized from detection target at peak volume (see decision record); confidence/risk blocklist; easy escalation path | Policy definition, sampled QA, escalation rules | `ai_generated_hypothesis` | `public-eu-ai-act-transparency`; `internal-sampling-policy-placeholder` |
 | Investigate likely cause | Support agent / product support engineer | Suggest investigation plan and likely cause with source links | Human-owned | AI-assisted | n/a | Plan cites logs/docs/traces; agent approves or edits before action; hallucinated-cause eval | Investigation judgment | `ai_generated_hypothesis` | `internal-investigation-eval-placeholder` |
-| Execute bounded reversible fix | Support agent / engineer | Apply approved reversible action such as session reset, feature-flag refresh, or resend invite | Human-owned | AI-executed | `approve-before-action` | Human approval before execution; action allowlist; audit log; rollback path; post-action customer-impact check | Approval, accountability, exception decision | `ai_generated_hypothesis` | `internal-action-allowlist-placeholder` |
+| Execute bounded reversible fix | Support agent / engineer | Apply approved reversible action such as session reset, feature-flag refresh, or resend invite | Human-owned | AI-executed | `approve-before-action` + `rollback-required` | Human approval before execution; action allowlist; audit log; tested rollback path; post-action customer-impact check | Approval, accountability, exception decision | `ai_generated_hypothesis` | `internal-action-allowlist-placeholder` |
 | Escalate to product or engineering | Support lead | Route with evidence packet, reproduction steps, customer impact, and suspected owner | AI-assisted | AI-executed | `policy-governed` | Escalation-quality eval; owner taxonomy; confidence threshold; human exception queue | Priority tradeoff and exception handling | `ai_generated_hypothesis` | `public-salesforce-agent-handoff`; `internal-escalation-eval-placeholder` |
 | Close ticket and update case record | Support agent | Draft closure summary and knowledge-base candidate | Human-owned | AI-assisted | n/a | Summary cites transcript and actions; human approves close; reopened-ticket monitoring | Close decision and knowledge-base publication | `ai_generated_hypothesis` | `internal-close-qa-placeholder` |
 | Accept policy exception or residual customer risk | Support lead / product owner | Provide evidence packet only | Human-owned | Human-owned | n/a | Not movable under this map; accountability is organizational, not model-owned | Decision and accountability | `ai_generated_hypothesis` | `internal-risk-acceptance-placeholder` |
@@ -156,9 +172,21 @@ Evidence label for all rows: `ai_generated_hypothesis`
 
 Evidence label for all rows: `ai_generated_hypothesis`
 
+## Oversight Capacity Check
+
+Run before any move that adds `approve-before-action` or `sampling-review` load. Numbers below are synthetic; a real team replaces them from volume and staffing data. Size samples from a detection target (≈ `3 / θ` clean reviews to bound undetected failure at θ with ~95% confidence), budget at **peak** not mean, and keep planned utilization under ~80%.
+
+| AI-executed responsibility | Risk stratum | Volume/week (mean / peak) | Detection target (max undetected failure rate) | Reviews/week needed (≈ 3 / target) | Minutes per adequate review | Review hours needed at peak | Review hours available (worst shift) | Headroom ≥ 20%? |
+|---|---|---|---|---:|---:|---:|---:|---|
+| Send low-risk acknowledgement (`sampling-review`) | Eligible low-risk only | 1,200 / 1,800 | ≤2.5% | 120 | ~4 | ~8.0 (→ ~10 h protected at ≤80% util.) | 3.0 | No — fails (see decision record) |
+| Execute bounded reversible fix (`approve-before-action`) | Allowlisted reversible actions | Unknown / unknown | n/a (each action reviewed) | = action volume | ~3–5 | Unknown until pilot | Unknown | Unvalidated — do not move until budgeted |
+| Classify ticket intent (`policy-governed`) | All tickets; high-risk exceptions only | n/a for full sample; exceptions only | Exception queue SLA beats misroute harm window | Exception volume only | ~5 | Unknown | Unknown | Unvalidated |
+
+Evidence label: `ai_generated_hypothesis`
+
 ## AI-Only Paths
 
-Target states above create one candidate end-to-end AI-only chain. Row-level samples do not cover the chain; the path needs its own control.
+Target states above create one candidate end-to-end AI-only chain. Row-level samples do not cover the chain; the path needs its own control. Controls must be commensurate with the worst outcome: detective-only is insufficient when harm is irreversible.
 
 | Path (AI-executed steps in sequence) | Entry condition | Volume (mean / peak) | Worst plausible outcome | Hazard class | Controls (type: control) | Owner |
 |---|---|---|---|---|---|---|
@@ -174,7 +202,7 @@ Boundary or work-architecture shift: low-risk support ticket classification, ack
 
 ## Capability
 
-[ ] Capability demonstrated in realistic historical replay and shadow-mode scenarios.
+[ ] Capability demonstrated in realistic historical replay and shadow-mode scenarios, **including across the subgroups the work affects** (product area, customer segment, risk tier).
 [ ] Known limitations documented by risk tier and product area.
 [ ] Failure modes understood, including misrouting, bad source citation, inappropriate tone, policy violation, and rollback failure.
 
@@ -193,7 +221,7 @@ Boundary or work-architecture shift: low-risk support ticket classification, ack
 
 ## Oversight Viability
 
-[ ] Sampling and approval load is budgeted at peak volume with a stated detection target, per the oversight capacity check.
+[ ] Sampling and approval load is budgeted at peak volume with a stated detection target, per the Oversight Capacity Check above.
 [ ] Accountable owner passes the authority / information / time / skill test, including a stop drill.
 [ ] Independent challenge and customer recourse exist for the auto-send boundary (someone outside support ops can block; customers can reach a human).
 [ ] Skill and context retention plan exists for agents whose routine work moves to AI (acknowledgements are the new-agent on-ramp).
@@ -210,8 +238,18 @@ Boundary or work-architecture shift: low-risk support ticket classification, ack
 [ ] Adoption, overrides, reopens, sampled QA failures, customer sentiment, escalation quality, rollback, and drift are measurable.
 [ ] Boundary-state distribution is monitored by risk tier.
 [ ] Contradiction signals have owners and refresh actions.
+[ ] Boundary telemetry is never used for individual performance management (Goodhart-proofing; see `references/oversight-viability.md`).
 
-Decision: `validate further` until real team evidence replaces the synthetic assumptions.
+## Durable Ambiguity
+
+[ ] We have identified what remains uncertain (thresholds, sampling rates, customer tolerance for disclosure, peak staffing).
+[ ] We have not collapsed multiple plausible futures into one assumed path (risk-tiered pilot vs. full auto-send remain open options).
+[ ] The proposed change preserves reversibility where possible (feature flags, rollback, eligibility tighteners).
+[ ] The proposed change has clear override or escalation.
+[ ] The proposed change has telemetry to detect contradiction.
+[ ] The map has scheduled or trigger-based refresh, including **system changes** (model, prompt, tool, corpus versions), not only behavioral drift.
+
+Decision: `validate further` until real team evidence replaces the synthetic assumptions. Record every move / do-not-move as a Boundary Decision Record — see [`customer-support-boundary-decision-record.md`](customer-support-boundary-decision-record.md) for the acknowledgement boundary (`do not move` on oversight-viability grounds).
 
 Evidence label: `ai_generated_hypothesis`
 

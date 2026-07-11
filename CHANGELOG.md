@@ -29,8 +29,12 @@ Theme: the v0.3 release rule gated the AI side of every boundary and the paperwo
 - SKILL.md special work shapes: agentic systems map `plan and sequence the work` as its own row; AI reviewers get their own row and eval.
 - SKILL.md description: added "how much autonomy should our agent have?" and human-in-the-loop/oversight-design trigger phrases (dropped "sales" to stay under the 1024-char loader limit; 982 chars). Canonical v0.4 reruns cover the 14-query set at 3 runs/query: specificity remained 7/7 on both models, while majority-trigger recall was 0/7 on Haiku 4.5 and 1/7 on Sonnet 4.6. Explicit invocation remains the reliable path.
 - Minimum snapshot template (SKILL.md and `references/templates.md`) gains the evidence-label column the evidence policy always implied; templates.md snapshot gains the missing Stakeholder coverage heading, aligning it with SKILL.md.
-- `examples/illustrative/customer-support-full-map.md`: added AI-only path analysis and an Oversight Viability section to the release gate; linked the new decision record.
-- `examples/illustrative/icu-bedside-nursing.md`: alarm fatigue cross-linked as the clinical extreme of the general attention-budget rule.
+- `examples/illustrative/customer-support-full-map.md`: map maintenance (owner, home, system dependencies, refresh triggers), control-stack column with composed modes (`approve-before-action` + `rollback-required`), oversight capacity check table, AI-only path analysis, full release gate including Oversight Viability and Durable Ambiguity (system-change refresh), linked decision record.
+- `examples/illustrative/customer-support.md`: aligned reversible-fix control stack with the full map; release note points at the full release rule.
+- `examples/illustrative/security.md`: orchestration row (`plan and sequence the work`) with control-transfer movement conditions; oversight-viability note on the release gate.
+- `examples/illustrative/icu-bedside-nursing.md`: alarm fatigue cross-linked as the clinical extreme of the attention-budget rule; oversight-viability framing for irreversible harm and fixed legal accountability.
+- `examples/illustrative/customer-support-boundary-map.svg`: control-stack badges, oversight-viability callout, system-change refresh note.
+- `examples/illustrative/README.md`: index descriptions updated for v0.4 example contents.
 
 ## v0.3.8
 

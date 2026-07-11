@@ -34,4 +34,13 @@ This example applies Human Responsibility Mapping to **ICU bedside nursing durin
 
 ## Release gate notes
 
-For any AI tool in this domain, the release rule from `SKILL.md` should be augmented with: alarm-fatigue impact study, subgroup parity across patient populations the unit actually treats (not vendor's training set), regulatory pathway (FDA SaMD class), and a kill-switch that frontline staff can pull without escalation. The alarm-fatigue concern is the clinical extreme of the general attention-budget rule in `references/oversight-viability.md`: AI that surfaces work faster than humans can absorb it degrades the oversight it is supposed to enable. Several boundary moves in this snapshot should remain Human-owned indefinitely — this is the correct application of the framework, not a bug.
+For any AI tool in this domain, the release rule from `SKILL.md` should be augmented with: alarm-fatigue impact study, subgroup parity across patient populations the unit actually treats (not vendor's training set), regulatory pathway (FDA SaMD class), and a kill-switch that frontline staff can pull without escalation.
+
+Oversight viability is often the binding constraint here, not model capability:
+
+- **Review / attention capacity** must be budgeted at peak multi-patient load, not average shift quiet time — AI that surfaces work faster than humans can absorb it is the clinical extreme of the attention-budget rule in `references/oversight-viability.md`.
+- **Accountable owner** is fixed by nursing practice acts; naming a software product owner does not pass the authority / information / time / skill test for clinical decisions.
+- **Skill retention** matters where monitoring AI erodes bedside assessment practice (Bainbridge's ironies of automation).
+- **AI-only paths** with irreversible harm (missed deterioration, inappropriate titration) cannot rely on detective-only sampling — preventive gates and Human-owned boundaries are the correct design.
+
+Several boundary moves in this snapshot should remain Human-owned indefinitely — this is the correct application of the framework, not a bug. Record keep / do-not-move decisions as Boundary Decision Records so the accountability facet has an audit trail.

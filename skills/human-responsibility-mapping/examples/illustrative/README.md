@@ -8,11 +8,11 @@ Per the framework's evidence policy, every claim in every file here carries the 
 
 | File | Domain | Why it's included |
 |---|---|---|
-| `customer-support.md` | Knowledge-work IC, mostly linear ticket pipeline | Common starting case for AI-assisted draft + bounded action |
-| `customer-support-full-map.md` | Knowledge-work team, full support workflow | Complete synthetic deliverable showing boundaries, evidence, stakeholder coverage, evals, telemetry, and release gate |
+| `customer-support.md` | Knowledge-work IC, mostly linear ticket pipeline | Common starting case for AI-assisted draft + bounded action (lightweight snapshot table) |
+| `customer-support-full-map.md` | Knowledge-work team, full support workflow | Complete synthetic deliverable: map maintenance, control stacks, oversight capacity, AI-only paths, full release gate (including durable ambiguity), evals, telemetry |
 | `customer-support-boundary-map.svg` | Knowledge-work team, visual map | Deterministic visual summary of the full customer-support map |
 | `customer-support-boundary-decision-record.md` | Knowledge-work team, single boundary decision | Shows the Boundary Decision Record shape and a move rejected on oversight-viability grounds |
-| `security.md` | Knowledge-work IC, exploratory + agentic | Demonstrates `policy-governed` + `rollback-required` control modes for an AI-executed boundary |
+| `security.md` | Knowledge-work IC, exploratory + agentic | Orchestration row (`plan and sequence the work`) plus `policy-governed` + `rollback-required` control stack |
 | `icu-bedside-nursing.md` | Embodied, multi-patient, safety-critical | Stress-tests the framework on non-knowledge work where naive automation harms (alarm fatigue) and accountability is legally fixed |
 
 The ICU example is included to show where the framework's default assumptions (decomposable knowledge work, AI as assistant, identifiable single role per responsibility) break or invert. If your domain looks more like the ICU example than like customer-support, expect to spend more time on the durable-ambiguity and accountability facets and less on the movement-condition facet.

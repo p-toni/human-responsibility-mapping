@@ -230,9 +230,9 @@ Load supporting files only when needed:
 - `references/workshop.md` — workshop flow.
 - `examples/illustrative/README.md` — what these examples are and aren't.
 - `examples/illustrative/customer-support.md` — knowledge-work IC, linear pipeline.
-- `examples/illustrative/customer-support-full-map.md` — complete synthetic map with boundaries, evidence, evals, telemetry, release gate.
+- `examples/illustrative/customer-support-full-map.md` — complete synthetic map with map maintenance, control stacks, oversight capacity, AI-only paths, evals, telemetry, full release gate.
 - `examples/illustrative/customer-support-boundary-map.svg` — deterministic visual summary of the customer-support full map.
-- `examples/illustrative/security.md` — knowledge-work IC, exploratory + agentic.
+- `examples/illustrative/security.md` — knowledge-work IC, exploratory + agentic (orchestration row + control stack).
 - `examples/illustrative/icu-bedside-nursing.md` — embodied, multi-patient, safety-critical (stress-tests the framework where its defaults break).
 - `examples/illustrative/customer-support-boundary-decision-record.md` — a gated boundary move rejected on oversight-viability grounds.
 - `schemas/human-responsibility-map.schema.json` — formal JSON Schema for machine-readable maps (versioned; validators must fail closed on unknown versions).
