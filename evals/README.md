@@ -2,10 +2,11 @@
 
 ## OpenAI Codex
 
-The repository includes `agents/openai.yaml` for Codex UI metadata and `$human-responsibility-mapping` invocation. Validate the skill package with OpenAI's `skill-creator`:
+The installable package includes `skills/human-responsibility-mapping/agents/openai.yaml` for Codex UI metadata and `$human-responsibility-mapping` invocation. Validate it with OpenAI's `skill-creator`:
 
 ```bash
-python3 /path/to/skill-creator/scripts/quick_validate.py .
+python3 /path/to/skill-creator/scripts/quick_validate.py \
+  skills/human-responsibility-mapping
 ```
 
 `openai-forward-test.json` records three explicit-invocation cases and their required behaviors: lightweight support drafting, agentic dependency auto-merge, and regulated radiology triage. A fresh Codex run on 2026-07-11 passed all three. This checks package loading and workflow execution; it is not an implicit-trigger benchmark. Do not claim a Codex trigger rate until a repeatable implicit-invocation harness exists.
@@ -45,14 +46,14 @@ This is what produced the committed result files. Requires Anthropic's `skill-cr
 ```bash
 python3 -m scripts.run_eval \
   --eval-set evals/trigger-eval.json \
-  --skill-path . \
+  --skill-path /path/to/human-responsibility-mapping/skills/human-responsibility-mapping \
   --runs-per-query 3 \
   --num-workers 6 \
   --model claude-sonnet-4-6 \
   --verbose
 ```
 
-(Run from the `skill-creator` skill directory, with `--skill-path` pointing at this repo.)
+(Run from the Anthropic `skill-creator` directory.)
 
 #### Anthropic self-report sanity check
 
@@ -61,7 +62,7 @@ For quick iteration on description wording without installing the harness:
 ```bash
 python3 scripts/description_self_report.py \
   --eval-set evals/trigger-eval.json \
-  --skill-path . \
+  --skill-path skills/human-responsibility-mapping \
   --runs-per-query 3 \
   --num-workers 6 \
   --model claude-sonnet-4-6 \

@@ -1,4 +1,4 @@
-"""Adversarial tests for scripts/validate_map.py.
+"""Adversarial tests for the bundled map validator.
 
 Each test seeds a violation the validator must catch (or a malformed input it
 must reject without crashing). Run with:
@@ -16,9 +16,12 @@ from pathlib import Path
 import yaml
 
 REPO = Path(__file__).resolve().parent.parent
-EXAMPLE = REPO / "schemas" / "agent-context-pack.example.yaml"
+SKILL_DIR = REPO / "skills" / "human-responsibility-mapping"
+EXAMPLE = SKILL_DIR / "schemas" / "agent-context-pack.example.yaml"
 
-spec = importlib.util.spec_from_file_location("validate_map", REPO / "scripts" / "validate_map.py")
+spec = importlib.util.spec_from_file_location(
+    "validate_map", SKILL_DIR / "scripts" / "validate_map.py"
+)
 validate_map = importlib.util.module_from_spec(spec)
 sys.modules["validate_map"] = validate_map
 spec.loader.exec_module(validate_map)
@@ -61,6 +64,19 @@ def test_example_passes():
 
 def test_example_via_file_api():
     assert validate_map.validate_file(EXAMPLE) == []
+
+
+def test_skill_package_contains_runtime_resources():
+    for relative_path in (
+        "SKILL.md",
+        "agents/openai.yaml",
+        "references/templates.md",
+        "references/agentic-work.md",
+        "examples/illustrative/customer-support-full-map.md",
+        "schemas/human-responsibility-map.schema.json",
+        "scripts/validate_map.py",
+    ):
+        assert (SKILL_DIR / relative_path).is_file(), relative_path
 
 
 def test_unknown_schema_version_fails_closed():

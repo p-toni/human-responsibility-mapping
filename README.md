@@ -8,6 +8,22 @@ This is an **integration framework**, not a claim of new theory. It combines est
 
 The skill uses portable `SKILL.md` trigger metadata and Markdown instructions, with optional runtime-specific metadata kept separate from the core workflow. Agents that support this skill structure should apply the same instructions and guardrails. Implicit triggering varies by runtime and model; explicit invocation by skill name is the portable, reliable path.
 
+## Install
+
+Requires Node.js. Install with the open [`skills` CLI](https://www.skills.sh/docs/cli):
+
+```bash
+npx skills add p-toni/human-responsibility-mapping
+```
+
+The CLI discovers the single `human-responsibility-mapping` skill and asks where to install it. Add `--global` to make it available across projects, or select a target agent with `--agent` as documented by the CLI.
+
+Verify discovery without installing:
+
+```bash
+npx skills add p-toni/human-responsibility-mapping --list
+```
+
 ## What you produce
 
 A Human Responsibility Map usually includes:
@@ -23,17 +39,17 @@ A Human Responsibility Map usually includes:
 - AI-only path analysis
 - Boundary decision records
 
-For a complete synthetic example, see [`examples/illustrative/customer-support-full-map.md`](examples/illustrative/customer-support-full-map.md), including its deterministic visual summary [`customer-support-boundary-map.svg`](examples/illustrative/customer-support-boundary-map.svg).
+For a complete synthetic example, see [`customer-support-full-map.md`](skills/human-responsibility-mapping/examples/illustrative/customer-support-full-map.md), including its deterministic visual summary [`customer-support-boundary-map.svg`](skills/human-responsibility-mapping/examples/illustrative/customer-support-boundary-map.svg).
 
 ## What changed in v0.4
 
 v0.4 answers the strongest critique of v0.3: the release rule checked the AI side of every boundary and the paperwork side of accountability, but never whether the humans could actually do the part the map said they retained.
 
 - Added the **Oversight viability** group to the release rule: review capacity budgeted at peak with a stated detection target (rule-of-three sample sizing, not "we review 10%"), accountable owners need authority/information/time/skill (not accountability in name only), high-impact moves need independent challenge and affected-party recourse, retained skills need retention plans (ironies of automation), and AI-only paths need hazard-commensurate controls — detective-only is insufficient where harm is irreversible.
-- Added `references/oversight-viability.md` — capacity math, skill retention, moral crumple zones, Goodhart-proofing the map's own telemetry, and the residue problem (read the "Human still owns" column as a job description).
-- Added `references/agentic-work.md` — orchestration as a responsibility row (agent autonomy levels expressed in the existing three-state vocabulary), AI reviewers get their own row and eval, accountability chains terminate in humans, AI-to-AI handoffs, and system-change revalidation (a boundary validated on model N is unvalidated on model N+1).
+- Added the oversight-viability reference — capacity math, skill retention, moral crumple zones, Goodhart-proofing the map's own telemetry, and the residue problem (read the "Human still owns" column as a job description).
+- Added the agentic-work reference — orchestration as a responsibility row (agent autonomy levels expressed in the existing three-state vocabulary), AI reviewers get their own row and eval, accountability chains terminate in humans, AI-to-AI handoffs, and system-change revalidation (a boundary validated on model N is unvalidated on model N+1).
 - Added **Boundary Decision Records** (ADRs for boundary moves), an **oversight capacity check**, and an **AI-only path table** to the templates — plus a worked decision record where a move passes every v0.3 check and is rejected on oversight viability.
-- Made `schemas/` real: a formal JSON Schema (`schemas/human-responsibility-map.schema.json`, versioned, fail-closed on unknown versions) plus `scripts/validate_map.py`, which validates structure and then enforces the semantic rules — control stacks must match boundary states, gate decision `move` requires every check to pass with a signed decision record, and irreversible AI-only paths cannot rely on detective-only controls. Adversarial tests in `tests/`.
+- Made the bundled `schemas/` directory real: a formal, versioned JSON Schema plus a fail-closed validator that enforces semantic rules — control stacks must match boundary states, gate decision `move` requires every check to pass with a signed decision record, and irreversible AI-only paths cannot rely on detective-only controls. Adversarial tests live at repository level in `tests/`.
 - Added runtime-specific UI metadata and functional forward tests without coupling the core workflow to one agent runtime; see `evals/README.md` for scoped validation evidence.
 - Extended prior art with the oversight-limits literature (Bainbridge 1983, Elish 2019, Green 2022, Santoni de Sio & van den Hoven 2018), systems safety (Leveson 2011), agent-autonomy frameworks (Feng, McDonald & Zhang 2025; Shavit et al. 2023; Mitchell et al. 2025), and the regulatory bar (EU AI Act Article 14, NIST AI RMF).
 - Subgroup parity joined the capability checks; the minimum snapshot now carries the evidence-label column it always should have had.
@@ -75,7 +91,7 @@ Operational rule:
 
 That means favor reversible changes, human override, staged delegation, evals before autonomy, telemetry before broad rollout, multiple hypotheses, contradiction logs, and refresh triggers.
 
-See `references/durable-ambiguity.md` for full guidance.
+See the bundled durable-ambiguity reference for full guidance.
 
 ---
 
@@ -105,43 +121,26 @@ Do not use it when you only need a marketing persona, a stable segmentation mode
 ```text
 human-responsibility-mapping/
   README.md
-  SKILL.md
-  agents/
-    ...                         # optional runtime metadata
   LICENSE
   CONTRIBUTING.md
   CHANGELOG.md
-  references/
-    core-concepts.md
-    prior-art.md
-    application-modes.md
-    durable-ambiguity.md
-    oversight-viability.md
-    agentic-work.md
-    templates.md
-    workshop.md
-  examples/
-    illustrative/
-      README.md
-      customer-support.md
-      customer-support-full-map.md
-      customer-support-boundary-map.svg
-      customer-support-boundary-decision-record.md
-      security.md
-      icu-bedside-nursing.md
-  schemas/
-    human-responsibility-map.schema.json
-    agent-context-pack.example.yaml
+  skills/
+    human-responsibility-mapping/
+      SKILL.md
+      agents/                   # optional runtime metadata
+      references/               # progressive-disclosure guidance
+      examples/                 # illustrative synthetic maps
+      schemas/                  # machine-readable map contract
+      scripts/                  # bundled validator
   scripts/
     description_self_report.py
-    validate_map.py
   tests/
     test_validate_map.py
   evals/
     ...                         # runtime-scoped validation artifacts
 ```
 
-`SKILL.md` is the runtime skill. The `references/` files are loaded on demand.
+`skills/human-responsibility-mapping/` is the installable package. Its `SKILL.md` is the runtime entrypoint; bundled references load on demand.
 
 ## Prior-art stance
 
