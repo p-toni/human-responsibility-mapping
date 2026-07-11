@@ -10,22 +10,18 @@ There is also a **self-report sanity-check script** in this repo at `scripts/des
 - `trigger-eval-results-haiku-4.5.json` — skill-creator harness, `claude-haiku-4-5-20251001`, 3 runs/query.
 - `trigger-eval-results-sonnet-4.6.json` — skill-creator harness, `claude-sonnet-4-6`, 3 runs/query.
 
-**Baseline staleness:** the committed result files were produced against the 12-query set and the v0.3.7 description. The v0.4 description adds agent-autonomy and oversight trigger phrases; rerun the canonical harness before citing trigger numbers for v0.4.
-
-## Result — v0.3.7 baseline (12-query set, pre-v0.4 description)
-
-**These numbers describe v0.3.7, not v0.4.** No v0.4 trigger results exist yet.
+## Result — v0.4 description (14-query set)
 
 | Model | Pass | Should-trigger recall | Specificity (no-false-positive) |
 |---|---|---|---|
-| Haiku 4.5 | 6/12 | 0/6 reliable | 6/6 |
-| Sonnet 4.6 | 7/12 | 1/6 reliable (3/3 on the strategy memo) | 6/6 |
+| Haiku 4.5 | 7/14 | 0/7 majority-trigger | 7/7 |
+| Sonnet 4.6 | 8/14 | 1/7 majority-trigger (2/3 on regulated radiology) | 7/7 |
 
-## Interpretation (of the v0.3.7 baseline)
+## Interpretation
 
-**Specificity was perfect in the baseline.** The v0.3.7 description never false-positived on adjacent topics: marketing personas, pure data segmentation, frontend perf debugging, plain RACI without AI context, no-AI journey maps, A/B testing setup. This matters more than recall — a false-positive trigger hijacks unrelated work. Whether the v0.4 description preserves this is unknown until the rerun.
+**Specificity remained perfect in this set.** The v0.4 description did not false-positive on adjacent topics: marketing personas, pure data segmentation, frontend perf debugging, plain RACI without AI context, no-AI journey maps, A/B testing setup, or an agent-engineering framework choice. This matters because a false-positive trigger hijacks unrelated work.
 
-**Recall was structurally limited.** Two consecutive description rewrites stalled at the same haiku floor. The pattern matches common skill-loader behavior: smaller or more direct models often handle "how should we think about X" advisory questions by reasoning directly rather than consulting a framework file. The skill triggered more reliably when the user wanted a concrete deliverable (the strategy-memo query went 0/3 -> 3/3 with the v0.3.2 description) than when they wanted thinking help.
+**Recall remains structurally limited.** Haiku did not trigger on any bullseye in three runs; Sonnet triggered in a majority of runs only for the regulated-radiology query. Even the new agent-autonomy bullseye triggered 0/3 on both models despite matching the description directly. Skill loaders often answer these advisory questions without consulting a framework file, so explicit invocation remains the reliable path.
 
 ## Reproducing
 
