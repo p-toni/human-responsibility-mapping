@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/p-toni/human-responsibility-mapping/schemas/human-responsibility-map.schema.json",
+  "title": "Human Responsibility Map (agent context pack), schema_version 0.4",
+  "type": "object",
+  "required": ["work_domain", "schema_version", "responsibilities", "release_gate"],
+  "properties": {
+    "work_domain": { "type": "string", "minLength": 1 },
+    "schema_version": { "const": "0.4" },
+    "last_updated": { "type": ["string", "null"] },
+    "owner": { "type": ["string", "null"] },
+    "confidence": { "enum": ["low", "medium", "high", null] },
+    "evidence_policy": { "type": "object" },
+    "current_work_architecture": { "type": "object" },
+    "ai_native_work_architecture_hypothesis": { "type": "object" },
+    "system_dependencies": {
+      "type": "object",
+      "required": ["model_version", "prompt_version", "tool_versions", "revalidation_rule"],
+      "properties": {
+        "model_version": { "type": "string", "minLength": 1 },
+        "prompt_version": { "type": "string", "minLength": 1 },
+        "tool_versions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "retrieval_corpus_version": { "type": ["string", "null"] },
+        "revalidation_rule": { "type": "string", "minLength": 1 }
+      }
+    },
+    "responsibilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/responsibility" }
+    },
+    "contradictions": { "type": "array", "items": { "type": "object" } },
+    "release_gate": { "$ref": "#/$defs/release_gate" },
+    "ai_only_paths": { "type": "array", "items": { "$ref": "#/$defs/ai_only_path" } },
+    "decision_records": { "type": "array", "items": { "$ref": "#/$defs/decision_record" } },
+    "durable_ambiguity": { "type": "object" }
+  },
+  "$defs": {
+    "boundary_state": { "enum": ["Human-owned", "AI-assisted", "AI-executed"] },
+    "control_mode": {
+      "enum": ["approve-before-action", "policy-governed", "sampling-review", "rollback-required"]
+    },
+    "control_stack": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/control_mode" },
+      "uniqueItems": true
+    },
+    "evidence_label": {
+      "enum": [
+        "observed",
+        "interview_derived",
+        "telemetry_derived",
+        "artifact_derived",
+        "inferred",
+        "ai_generated_hypothesis",
+        "unvalidated"
+      ]
+    },
+    "gate_check": {
+      "type": "object",
+      "required": ["check", "status"],
+      "properties": {
+        "check": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["pass", "fail", "not_applicable"] },
+        "evidence": { "type": ["string", "null"] },
+        "owner": { "type": ["string", "null"] }
+      }
+    },
+    "gate_section": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/gate_check" }
+    },
+    "claim": {
+      "type": "object",
+      "required": ["claim", "evidence_label"],
+      "properties": {
+        "claim": { "type": "string", "minLength": 1 },
+        "evidence_label": { "$ref": "#/$defs/evidence_label" },
+        "confidence": { "enum": ["low", "medium", "high"] },
+        "allowed_agent_use": { "type": "string" },
+        "validation_needed": { "type": "boolean" }
+      }
+    },
+    "responsibility": {
+      "type": "object",
+      "required": ["name", "boundary"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "current_human_owner": { "type": ["string", "null"] },
+        "boundary": {
+          "type": "object",
+          "required": ["current_state", "target_state", "accountability_owner"],
+          "properties": {
+            "current_state": { "$ref": "#/$defs/boundary_state" },
+            "target_state": { "$ref": "#/$defs/boundary_state" },
+            "ai_role": { "type": ["string", "null"] },
+            "movement_condition": { "type": "array", "items": { "type": "string" } },
+            "accountability_owner": { "type": "string", "minLength": 1 },
+            "current_controls": { "$ref": "#/$defs/control_stack" },
+            "target_controls": { "$ref": "#/$defs/control_stack" }
+          }
+        },
+        "product_requirements": { "type": "array", "items": { "type": "string" } },
+        "eval_requirements": { "type": "array", "items": { "type": "string" } },
+        "telemetry": { "type": "array", "items": { "type": "string" } },
+        "claims": { "type": "array", "items": { "$ref": "#/$defs/claim" } }
+      }
+    },
+    "release_gate": {
+      "type": "object",
+      "required": [
+        "boundary_or_shift",
+        "capability",
+        "trust_and_evidence",
+        "accountability",
+        "oversight_viability",
+        "evals",
+        "telemetry",
+        "decision"
+      ],
+      "properties": {
+        "boundary_or_shift": { "type": "string", "minLength": 1 },
+        "capability": { "$ref": "#/$defs/gate_section" },
+        "trust_and_evidence": { "$ref": "#/$defs/gate_section" },
+        "accountability": { "$ref": "#/$defs/gate_section" },
+        "oversight_viability": { "$ref": "#/$defs/gate_section" },
+        "evals": { "$ref": "#/$defs/gate_section" },
+        "telemetry": { "$ref": "#/$defs/gate_section" },
+        "decision": { "enum": ["move", "do_not_move", "validate_further"] }
+      }
+    },
+    "path_control": {
+      "type": "object",
+      "required": ["type", "control"],
+      "properties": {
+        "type": { "enum": ["preventive", "containment", "detective", "corrective"] },
+        "control": { "type": "string", "minLength": 1 }
+      }
+    },
+    "ai_only_path": {
+      "type": "object",
+      "required": [
+        "path",
+        "entry_condition",
+        "worst_plausible_outcome",
+        "hazard_class",
+        "controls",
+        "owner"
+      ],
+      "properties": {
+        "path": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 1 } },
+        "entry_condition": { "type": "string", "minLength": 1 },
+        "expected_volume": { "type": ["string", "number", "null"] },
+        "worst_plausible_outcome": { "type": "string", "minLength": 1 },
+        "hazard_class": { "enum": ["reversible", "irreversible"] },
+        "detection_latency": { "type": ["string", "null"] },
+        "controls": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/path_control" }
+        },
+        "owner": { "type": "string", "minLength": 1 }
+      }
+    },
+    "decision_record": {
+      "type": "object",
+      "required": ["date", "responsibility", "decision", "accountable_owner_signoff"],
+      "properties": {
+        "date": { "type": "string", "minLength": 1 },
+        "responsibility": { "type": "string", "minLength": 1 },
+        "from_state": { "$ref": "#/$defs/boundary_state" },
+        "to_state": { "$ref": "#/$defs/boundary_state" },
+        "decision": { "enum": ["move", "do_not_move", "validate_further"] },
+        "record": { "type": ["string", "null"] },
+        "accountable_owner_signoff": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

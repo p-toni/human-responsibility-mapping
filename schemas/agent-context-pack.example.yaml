@@ -1,8 +1,18 @@
 work_domain: enterprise_customer_support
-schema_version: "0.3"
+schema_version: "0.4"
 last_updated: null
 owner: "product-team"
 confidence: "medium"
+
+# Boundary evidence is validated against a specific system. Pin the versions;
+# any change here is a refresh trigger: affected boundaries are unvalidated
+# until required evals re-run.
+system_dependencies:
+  model_version: "pinned-model-id"
+  prompt_version: "prompts@git-sha-or-tag"
+  tool_versions: ["ticketing-api@2.3"]
+  retrieval_corpus_version: "kb-snapshot-2026-07-01"
+  revalidation_rule: "re-run required evals before boundary states persist"
 
 evidence_policy:
   missing_evidence_label_means: "unvalidated"
@@ -39,7 +49,11 @@ responsibilities:
       ai_role: "draft policy-checked response"
       movement_condition: ["response_correctness_eval_passes", "policy_compliance_eval_passes", "source_fidelity_visible"]
       accountability_owner: "support_lead"
-      control_mode: null
+      # Control stacks apply only to AI-executed states, and they compose
+      # (e.g. ["policy-governed", "rollback-required"]). Both states here are
+      # AI-assisted, so both stacks are empty.
+      current_controls: []
+      target_controls: []
     product_requirements: ["policy_checked_drafts", "source_citations", "approval_gate"]
     eval_requirements: ["response_correctness_eval", "policy_compliance_eval", "source_fidelity_eval"]
     telemetry: ["draft_acceptance_rate", "edit_distance", "reopen_rate", "escalation_rate"]
@@ -59,32 +73,96 @@ contradictions:
     product_eval_impact: "May require better source UI or lower target boundary."
     status: "open"
 
+# Each gate check carries a status and evidence. The validator refuses
+# decision "move" while any check is "fail" or any "not_applicable" lacks
+# an evidence note; "move" and "do_not_move" also require a signed decision
+# record below. Gate presence is not gate success.
 release_gate:
   boundary_or_shift: "draft_response"
   capability:
-    - "capability_demonstrated_in_realistic_scenarios"
-    - "known_limitations_documented"
-    - "failure_modes_understood"
+    - check: "capability_demonstrated_in_realistic_scenarios_including_subgroups"
+      status: "fail"
+      evidence: null
+    - check: "known_limitations_documented"
+      status: "pass"
+      evidence: "limitations-doc@v3"
+    - check: "failure_modes_understood"
+      status: "fail"
+      evidence: null
   trust_and_evidence:
-    - "evidence_inspectable"
-    - "calibration_or_uncertainty_visible"
-    - "human_control_appropriate"
+    - check: "evidence_inspectable"
+      status: "pass"
+      evidence: "source-citation-ui-review-2026-06"
+    - check: "calibration_or_uncertainty_visible"
+      status: "fail"
+      evidence: null
+    - check: "human_control_appropriate"
+      status: "pass"
+      evidence: "approval-gate-design-doc"
   accountability:
-    - "accountable_owner_explicit"
-    - "human_only_decisions_preserved"
-    - "escalation_path_exists"
+    - check: "accountable_owner_explicit"
+      status: "pass"
+      evidence: "support_lead named in map"
+    - check: "human_only_decisions_preserved"
+      status: "pass"
+      evidence: "customer send stays human"
+    - check: "escalation_path_exists"
+      status: "pass"
+      evidence: "lead-escalation runbook"
+  oversight_viability:
+    - check: "review_capacity_budgeted_at_peak_with_detection_target"
+      status: "fail"
+      evidence: null
+    - check: "accountable_owner_has_authority_information_time_skill"
+      status: "fail"
+      evidence: null
+    - check: "independent_challenge_and_recourse_for_high_impact_moves"
+      status: "not_applicable"
+      evidence: "draft_response stays AI-assisted; low-impact move"
+    - check: "skill_retention_plan_where_practice_erodes"
+      status: "fail"
+      evidence: null
+    - check: "ai_only_paths_enumerated_with_hazard_commensurate_controls"
+      status: "not_applicable"
+      evidence: "no AI-executed boundary in this map"
   evals:
-    - "required_evals_defined"
-    - "required_evals_pass"
-    - "regression_coverage_exists"
+    - check: "required_evals_defined"
+      status: "pass"
+      evidence: "eval_requirements in this map"
+    - check: "required_evals_pass"
+      status: "fail"
+      evidence: null
+    - check: "regression_coverage_exists"
+      status: "fail"
+      evidence: null
   telemetry:
-    - "adoption_measurable"
-    - "overrides_measurable"
-    - "misuse_measurable"
-    - "rejection_or_abandonment_measurable"
-    - "drift_or_degradation_detectable"
-  decision: "do_not_move_until_pilot_complete"
+    - check: "adoption_measurable"
+      status: "pass"
+      evidence: "draft_acceptance_rate dashboard"
+    - check: "overrides_measurable"
+      status: "pass"
+      evidence: "edit_distance dashboard"
+    - check: "misuse_measurable"
+      status: "fail"
+      evidence: null
+    - check: "rejection_or_abandonment_measurable"
+      status: "fail"
+      evidence: null
+    - check: "drift_or_degradation_detectable"
+      status: "fail"
+      evidence: null
+  decision: "validate_further"  # one of: move / do_not_move / validate_further
 
+# Sequences of AI-executed steps a work item can traverse with no human contact.
+# Empty is a claim, not a default: enumerate after any move creates or extends a
+# chain. Each entry needs a hazard_class and typed controls; the validator
+# rejects irreversible paths whose controls are detective-only.
+ai_only_paths: []
+
+# One entry per decision; the validator requires a signed record whenever the
+# release gate decides "move" or "do_not_move". Full narrative goes in a
+# Boundary Decision Record (references/templates.md); link it via `record`.
+decision_records: []
 
 durable_ambiguity:
   uncertainty_status: "active"

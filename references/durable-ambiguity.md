@@ -39,6 +39,7 @@ human override
 staged delegation
 telemetry before broad rollout
 evals before autonomy
+evals rerun on model, prompt, tool, or corpus change
 multiple work-architecture hypotheses
 short refresh loops
 explicit contradiction signals

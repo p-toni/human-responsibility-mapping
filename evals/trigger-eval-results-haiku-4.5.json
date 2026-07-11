@@ -1,12 +1,12 @@
 {
   "skill_name": "human-responsibility-mapping",
-  "description": "Use this skill whenever a user asks how AI changes a workflow, role, journey, RACI, service blueprint, operating model, or strategy \u2014 including any version of \"what should AI do vs humans?\", \"what should we automate?\", \"who's accountable when the AI is wrong?\", or \"what evals/telemetry/release gates do we need before launch?\". Trigger on prompts about: redesigning incident response, customer support, legal review, security/SOC triage, sales, or operations workflows for AI; designing AI-assisted/agentic features and the human oversight around them; writing strategy memos or operating-model proposals about AI changing a team's work; building RACI-like ownership matrices, service blueprints, or journey maps that involve AI somewhere in the flow; defining AI-era personas (role-responsibility views, not marketing personas); translating trust requirements into evals, telemetry, and release gates. Use it even when the user does not say \"human responsibility mapping\" \u2014 they almost never will. The cue is any question about the boundary between human and AI responsibility, accountability, or work redesign.",
+  "description": "Produces a **Human Responsibility Snapshot** \u2014 a structured Markdown artifact mapping each responsibility in a workflow, who owns it today, what AI takes on next, the boundary state (human-owned / AI-assisted / AI-executed), the movement condition (evidence, eval, telemetry, or control needed to move it), and what stays human-owned. Use whenever a user asks how AI changes a workflow, role, RACI, service blueprint, journey, operating model, or strategy \u2014 including \"what should AI do vs humans?\", \"what should we automate?\", \"how much autonomy should our agent have?\", \"who's accountable when the AI is wrong?\", or \"what evals, telemetry, or release gates do we need before launch?\". Triggers on AI-assisted or agentic incident response, customer support, legal review, security/SOC triage, ops, human-in-the-loop or oversight design, AI-era persona views, and operating-model memos about AI changing a team's work. Default output is the filled Snapshot table \u2014 not prose advice.",
   "results": [
     {
       "query": "I'm doing roadmap planning for Q3 and need to write a strategy memo about how AI changes our customer-success org. Specifically: which CSM activities get automated, which stay human, and what the new operating model looks like. about 2 pages.",
       "should_trigger": true,
-      "trigger_rate": 0.3333333333333333,
-      "triggers": 1,
+      "trigger_rate": 0.0,
+      "triggers": 0,
       "runs": 3,
       "pass": false
     },
@@ -97,11 +97,27 @@
       "triggers": 0,
       "runs": 3,
       "pass": true
+    },
+    {
+      "query": "help me build a multi-agent pipeline with a planner agent and two worker agents. I'm deciding between LangGraph and the OpenAI Agents SDK \u2014 which handles handoffs and retries better?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": true
+    },
+    {
+      "query": "we're giving our internal coding agent more autonomy \u2014 today a human approves every PR it opens, and we want it to merge low-risk changes itself. how much autonomy should it have, and what human oversight do we actually need to keep?",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 3,
+      "pass": false
     }
   ],
   "summary": {
-    "total": 12,
-    "passed": 6,
-    "failed": 6
+    "total": 14,
+    "passed": 7,
+    "failed": 7
   }
 }

@@ -16,7 +16,7 @@ Use this when a team needs a first Human Responsibility Snapshot in one session.
 0-5 min: Define the work domain, workflow boundary, and decision the map must support.
 5-15 min: Map current work architecture: sequence, queues, handoffs, reviews, approvals, artifacts, feedback loops, control surfaces, metrics.
 15-25 min: Break the workflow into responsibility units. Split any unit that hides different boundary states.
-25-38 min: Assign current and target boundary states for each responsibility. Use control modes only for AI-executed work.
+25-38 min: Assign current and target boundary states for each responsibility. Give every AI-executed state (current or target) its control stack.
 38-48 min: Define movement conditions: evidence, controls, evals, telemetry, rollback, escalation, accountable owner.
 48-55 min: Identify stakeholder coverage gaps, old-layout traps, and contradiction signals.
 55-60 min: Choose the first three deliverables and owners.
@@ -31,7 +31,7 @@ Use this when a team needs a first Human Responsibility Snapshot in one session.
 ## Done means
 
 - Every responsibility has one current boundary state and one target state.
-- Every AI-executed target has exactly one control mode.
+- Every AI-executed state (current or target) has a control stack of at least one mode.
 - Every load-bearing claim has an evidence label and source reference where possible.
 - Missing evidence is labeled `unvalidated`; synthetic assumptions are labeled `ai_generated_hypothesis`.
 - Stakeholder coverage gaps are visible.

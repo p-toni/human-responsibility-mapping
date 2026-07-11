@@ -8,19 +8,20 @@ description: >-
   needed to move it), and what stays human-owned. Use whenever a user asks
   how AI changes a workflow, role, RACI, service blueprint, journey,
   operating model, or strategy — including "what should AI do vs humans?",
-  "what should we automate?", "who's accountable when the AI is wrong?", or
-  "what evals, telemetry, or release gates do we need before launch?".
-  Triggers on AI-assisted or agentic incident response, customer support,
-  legal review, security/SOC triage, sales, ops, AI-era persona views, and
-  operating-model memos about AI changing a team's work. Default output is
-  the filled Snapshot table — not prose advice.
+  "what should we automate?", "how much autonomy should our agent have?",
+  "who's accountable when the AI is wrong?", or "what evals, telemetry, or
+  release gates do we need before launch?". Triggers on AI-assisted or
+  agentic incident response, customer support, legal review, security/SOC
+  triage, ops, human-in-the-loop or oversight design, AI-era persona views,
+  and operating-model memos about AI changing a team's work. Default output
+  is the filled Snapshot table — not prose advice.
 ---
 
 # Human Responsibility Mapping
 
 Use this skill to **produce a Human Responsibility Snapshot or Map** — structured Markdown artifacts that show which responsibilities AI takes on, what humans retain, the evidence/control/accountability conditions required to move each boundary, and the product/eval/telemetry implications. The Snapshot (lightweight) is the default deliverable; the Map (Standard/Full mode) is the longer version.
 
-This skill targets the Markdown + YAML-frontmatter convention used by Claude Code and Anthropic's Skills system. Other agent runtimes that load the same convention (e.g. Codex when configured to read `SKILL.md`) should apply the same workflow and guardrails. Triggering reliability varies across runtimes — see `evals/README.md`.
+This package follows the OpenAI Codex skill structure: `SKILL.md` supplies the trigger metadata and runtime instructions, `agents/openai.yaml` supplies Codex UI metadata and explicit `$human-responsibility-mapping` invocation, and bundled resources load only when needed. The Markdown workflow is runtime-neutral and can also be used by other agents that support `SKILL.md`. Implicit triggering varies by runtime and model — see `evals/README.md`.
 
 This is not a synthetic-persona generator. It is an integration framework for AI product teams. It produces AI-era persona views as one output, but the source artifact is a **Human Responsibility Map**.
 
@@ -76,16 +77,20 @@ Treat AI exposure, delegation, trust, and accountability as facets of the same b
 | AI-assisted | AI summarizes, suggests, ranks, drafts, or explains | Human chooses, edits, approves, decides |
 | AI-executed | AI takes bounded action, routes, updates, or triggers work | Human gates, monitors, audits, or governs |
 
-For AI-executed work, specify one control mode:
+For AI-executed work, specify a **control stack** — one or more modes. The modes cover different control categories (authorization, runtime constraint, review, recoverability) and compose: `policy-governed` + `rollback-required` is a common pair, not a contradiction.
 
-| Control mode | Meaning |
-|---|---|
-| `approve-before-action` | Human approves each action before it executes |
-| `policy-governed` | AI acts within bounded policy; humans review only policy exceptions or anomalies |
-| `sampling-review` | AI acts; humans review a sample post-hoc for QA and drift |
-| `rollback-required` | AI acts; system must support fast rollback if outcomes are wrong |
+| Control mode | Category | Meaning |
+|---|---|---|
+| `approve-before-action` | Authorization | Human approves each action before it executes |
+| `policy-governed` | Runtime constraint | AI acts within bounded policy; humans review only policy exceptions or anomalies |
+| `sampling-review` | Review | AI acts; humans review a sample post-hoc for QA and drift |
+| `rollback-required` | Recoverability | AI acts; system must support fast rollback if outcomes are wrong |
 
-These compress a longer literature on supervisory control and levels of automation (Sheridan 1992; Parasuraman, Sheridan & Wickens 2000). The watch-out is the soft edge between AI-assisted and AI-executed: a "draft humans always accept" is operationally executed under `approve-before-action`. If override rates fall below ~5%, treat the boundary as having moved whether the design says so or not.
+A boundary that is AI-executed *today* keeps its current stack in the map even while a move to a lower state is under discussion — dropping the current controls from the record is how running systems end up ungoverned.
+
+These compress a longer literature on supervisory control and levels of automation (Sheridan 1992; Parasuraman, Sheridan & Wickens 2000). The watch-out is the soft edge between AI-assisted and AI-executed: a "draft humans always accept" is operationally executed under `approve-before-action`. If override rates fall below ~5%, treat the boundary as having moved whether the design says so or not. Override rate is also a Goodhart-vulnerable instrument — once it decides boundary moves or performance reviews, people bend it. Never use boundary telemetry for individual performance management, and triangulate before acting on it (see `references/oversight-viability.md`).
+
+Control modes that rely on human review are only as real as the attention behind them: budget review capacity before choosing `approve-before-action` or `sampling-review`, or the control degrades silently into rubber-stamping.
 
 Do not imply that more automation is better. The right boundary depends on risk, reversibility, evidence quality, regulation, user trust, accountability, and failure blast radius.
 
@@ -156,8 +161,8 @@ This taxonomy is standard research provenance (cf. GRADE in medicine, Guyatt et 
 ## Old constraints
 ## Main roles
 
-| Responsibility | Human owner today | AI role now/next | Boundary state now | Target state | Movement condition | Human still owns |
-|---|---|---|---|---|---|---|
+| Responsibility | Human owner today | AI role now/next | Boundary state now | Target state | Movement condition | Human still owns | Evidence label |
+|---|---|---|---|---|---|---|---|
 
 ## Trust / accountability requirements
 ## Work architecture shift
@@ -170,6 +175,7 @@ This taxonomy is standard research provenance (cf. GRADE in medicine, Guyatt et 
 
 ## Special work shapes
 
+- Agentic systems: when AI plans, sequences, or delegates work, add `plan and sequence the work` as its own responsibility row — it is usually the most consequential boundary and the least examined. AI reviewers (LLM judges, policy checkers) get their own row and eval. Accountability chains always terminate in a human. See `references/agentic-work.md`.
 - Dynamic objective work: map loops (`observe -> hypothesize -> act -> evaluate -> reframe -> continue/stop/escalate`) instead of linear steps.
 - System-facing domains: if persona language feels forced, map operators, control surfaces, system states, failure modes, evidence, and accountability.
 - Creative work: protect authorship, taste, and meaning boundaries; use lightweight mode.
@@ -177,11 +183,11 @@ This taxonomy is standard research provenance (cf. GRADE in medicine, Guyatt et 
 
 ## Release rule
 
-Do not recommend moving a boundary unless these are true. The checks group by Boundary facet and one ambiguity stance.
+Do not recommend moving a boundary unless these are true. The checks group by Boundary facet, oversight viability, and one ambiguity stance.
 
 ```text
 Movement condition (does the evidence support the move?)
-[ ] Capability is demonstrated in realistic scenarios.
+[ ] Capability is demonstrated in realistic scenarios, including across the subgroups the work affects.
 [ ] Failure modes are understood and documented.
 [ ] Evidence is inspectable.
 [ ] Required evals exist and pass.
@@ -192,13 +198,23 @@ Accountability (does someone own the consequence?)
 [ ] Escalation path exists.
 [ ] Human-only decisions inside the boundary are preserved.
 
+Oversight viability (can humans actually do the retained part?)
+[ ] Review capacity is budgeted at peak load, with sample sizes derived from a stated detection target — not average volume.
+[ ] The accountable owner has the authority, information, time, and skill to intervene — not accountability in name only.
+[ ] High-impact moves have independent challenge and affected-party recourse, not only a named owner.
+[ ] Retained human skills have a retention plan where this move erodes their practice.
+[ ] AI-only paths created or extended by this move are enumerated, with controls commensurate with their worst outcome — detective-only controls are insufficient where harm is irreversible.
+
 Durable ambiguity (have we preserved optionality?)
 [ ] We have identified what remains uncertain.
 [ ] The proposed change preserves reversibility where possible.
 [ ] Contradiction signals and refresh triggers are defined.
+[ ] Refresh triggers include system changes (model, prompt, tool, corpus versions), not only behavioral drift.
 ```
 
-If not all true, keep the current boundary or recommend a validation plan.
+If not all true, keep the current boundary or recommend a validation plan. A move that passes evidence checks but fails oversight viability means *redesign the human role*, not "move and monitor" — monitoring is the oversight activity that just failed the test.
+
+Record every move / do-not-move decision as a Boundary Decision Record (`references/templates.md`) so the accountability facet has an audit trail.
 
 ## Resources
 
@@ -208,7 +224,9 @@ Load supporting files only when needed:
 - `references/prior-art.md` — prior-art positioning and honest contribution.
 - `references/application-modes.md` — lightweight/standard/full modes and special work shapes.
 - `references/durable-ambiguity.md` — ambiguity-aware mapping, optionality, multiple hypotheses, and contradiction handling.
-- `references/templates.md` — evidence ledger, trust profile, eval plan, telemetry plan, release gates.
+- `references/oversight-viability.md` — review-capacity budgets, skill retention, moral crumple zones, Goodhart-proofing the map's telemetry.
+- `references/agentic-work.md` — orchestration as a responsibility row, AI reviewers, AI-to-AI handoffs, AI-only path analysis, system-change revalidation.
+- `references/templates.md` — evidence ledger, trust profile, eval plan, telemetry plan, release gates, boundary decision record, oversight capacity check, AI-only path table.
 - `references/workshop.md` — workshop flow.
 - `examples/illustrative/README.md` — what these examples are and aren't.
 - `examples/illustrative/customer-support.md` — knowledge-work IC, linear pipeline.
@@ -216,7 +234,10 @@ Load supporting files only when needed:
 - `examples/illustrative/customer-support-boundary-map.svg` — deterministic visual summary of the customer-support full map.
 - `examples/illustrative/security.md` — knowledge-work IC, exploratory + agentic.
 - `examples/illustrative/icu-bedside-nursing.md` — embodied, multi-patient, safety-critical (stress-tests the framework where its defaults break).
+- `examples/illustrative/customer-support-boundary-decision-record.md` — a gated boundary move rejected on oversight-viability grounds.
+- `schemas/human-responsibility-map.schema.json` — formal JSON Schema for machine-readable maps (versioned; validators must fail closed on unknown versions).
 - `schemas/agent-context-pack.example.yaml` — machine-readable example.
+- `scripts/validate_map.py` — fail-closed validator: JSON Schema structure plus semantic rules (control stacks match states, gate `move` requires passing checks and a signed decision record, irreversible AI-only paths reject detective-only controls).
 - `evals/` — trigger evaluation artifacts (test set + per-model results).
 
 ## Guardrails
@@ -226,4 +247,6 @@ Load supporting files only when needed:
 - Do not treat personas as the source of truth.
 - Do not maximize automation by default.
 - Do not hide accountability behind AI.
+- Do not name an accountable owner who lacks the authority, information, time, or skill to intervene.
+- Do not use boundary telemetry (override rate, edit distance, QA samples) for individual performance management.
 - Do not use the framework to profile private individual traits or manipulate adoption.
