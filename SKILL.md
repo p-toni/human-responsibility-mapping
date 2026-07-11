@@ -21,7 +21,7 @@ description: >-
 
 Use this skill to **produce a Human Responsibility Snapshot or Map** — structured Markdown artifacts that show which responsibilities AI takes on, what humans retain, the evidence/control/accountability conditions required to move each boundary, and the product/eval/telemetry implications. The Snapshot (lightweight) is the default deliverable; the Map (Standard/Full mode) is the longer version.
 
-This skill targets the Markdown + YAML-frontmatter convention used by Claude Code and Anthropic's Skills system. Other agent runtimes that load the same convention (e.g. Codex when configured to read `SKILL.md`) should apply the same workflow and guardrails. Triggering reliability varies across runtimes — see `evals/README.md`.
+This package follows the OpenAI Codex skill structure: `SKILL.md` supplies the trigger metadata and runtime instructions, `agents/openai.yaml` supplies Codex UI metadata and explicit `$human-responsibility-mapping` invocation, and bundled resources load only when needed. The Markdown workflow is runtime-neutral and can also be used by other agents that support `SKILL.md`. Implicit triggering varies by runtime and model — see `evals/README.md`.
 
 This is not a synthetic-persona generator. It is an integration framework for AI product teams. It produces AI-era persona views as one output, but the source artifact is a **Human Responsibility Map**.
 

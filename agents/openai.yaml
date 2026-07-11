@@ -1,0 +1,4 @@
+interface:
+  display_name: "Human Responsibility Mapping"
+  short_description: "Map accountable human-AI work boundaries"
+  default_prompt: "Use $human-responsibility-mapping to map this workflow's human-AI responsibilities, evidence, controls, and release gates."
