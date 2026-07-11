@@ -6,7 +6,7 @@ Human Responsibility Mapping helps teams decide what AI should do, what humans s
 
 This is an **integration framework**, not a claim of new theory. It combines established ideas from automation levels, trust in automation, responsibility/accountability mapping, service blueprinting, technology probes, Lean UX, and product eval practice into one practical operating artifact for AI product teams.
 
-The skill is packaged for OpenAI Codex with `SKILL.md` trigger metadata and `agents/openai.yaml` UI metadata. Its Markdown workflow is runtime-neutral and can also be loaded by other agents that support `SKILL.md`. Implicit triggering varies by runtime and model; explicit `$human-responsibility-mapping` invocation is the portable, reliable path.
+The skill uses portable `SKILL.md` trigger metadata and Markdown instructions, with optional runtime-specific metadata kept separate from the core workflow. Agents that support this skill structure should apply the same instructions and guardrails. Implicit triggering varies by runtime and model; explicit invocation by skill name is the portable, reliable path.
 
 ## What you produce
 
@@ -34,7 +34,7 @@ v0.4 answers the strongest critique of v0.3: the release rule checked the AI sid
 - Added `references/agentic-work.md` — orchestration as a responsibility row (agent autonomy levels expressed in the existing three-state vocabulary), AI reviewers get their own row and eval, accountability chains terminate in humans, AI-to-AI handoffs, and system-change revalidation (a boundary validated on model N is unvalidated on model N+1).
 - Added **Boundary Decision Records** (ADRs for boundary moves), an **oversight capacity check**, and an **AI-only path table** to the templates — plus a worked decision record where a move passes every v0.3 check and is rejected on oversight viability.
 - Made `schemas/` real: a formal JSON Schema (`schemas/human-responsibility-map.schema.json`, versioned, fail-closed on unknown versions) plus `scripts/validate_map.py`, which validates structure and then enforces the semantic rules — control stacks must match boundary states, gate decision `move` requires every check to pass with a signed decision record, and irreversible AI-only paths cannot rely on detective-only controls. Adversarial tests in `tests/`.
-- Added `agents/openai.yaml` so Codex can display and explicitly invoke the skill through `$human-responsibility-mapping`; validated the package with OpenAI's `skill-creator` tooling and forward-tested it in Codex.
+- Added runtime-specific UI metadata and functional forward tests without coupling the core workflow to one agent runtime; see `evals/README.md` for scoped validation evidence.
 - Extended prior art with the oversight-limits literature (Bainbridge 1983, Elish 2019, Green 2022, Santoni de Sio & van den Hoven 2018), systems safety (Leveson 2011), agent-autonomy frameworks (Feng, McDonald & Zhang 2025; Shavit et al. 2023; Mitchell et al. 2025), and the regulatory bar (EU AI Act Article 14, NIST AI RMF).
 - Subgroup parity joined the capability checks; the minimum snapshot now carries the evidence-label column it always should have had.
 
@@ -107,7 +107,7 @@ human-responsibility-mapping/
   README.md
   SKILL.md
   agents/
-    openai.yaml
+    ...                         # optional runtime metadata
   LICENSE
   CONTRIBUTING.md
   CHANGELOG.md
@@ -138,10 +138,7 @@ human-responsibility-mapping/
   tests/
     test_validate_map.py
   evals/
-    openai-forward-test.json
-    trigger-eval.json
-    trigger-eval-results-haiku-4.5.json
-    trigger-eval-results-sonnet-4.6.json
+    ...                         # runtime-scoped validation artifacts
 ```
 
 `SKILL.md` is the runtime skill. The `references/` files are loaded on demand.
@@ -165,15 +162,15 @@ Label all unsupported claims as unvalidated.
 Do not recommend higher automation unless the release rule is satisfied.
 ```
 
-## Triggering and explicit invocation
+## Invocation and runtime compatibility
 
-In OpenAI Codex, invoke the skill explicitly when you need the structured workflow:
+Invoke the skill explicitly when you need the structured workflow:
 
 ```text
-Use $human-responsibility-mapping to map [WORK DOMAIN].
+Use the human-responsibility-mapping skill to map [WORK DOMAIN].
 ```
 
-`agents/openai.yaml` permits implicit invocation, but the repository does not yet claim a Codex implicit-trigger rate. OpenAI compatibility is checked with `skill-creator` validation and fresh Codex forward tests. The committed Haiku 4.5 and Sonnet 4.6 trigger results are Anthropic-specific evidence and should not be extrapolated to OpenAI models. See `evals/README.md`.
+The core workflow is runtime-neutral. Runtime-specific packaging, functional checks, and model-specific trigger results are documented separately in `evals/README.md`; evidence from one runtime should not be extrapolated to another.
 
 ## License
 
